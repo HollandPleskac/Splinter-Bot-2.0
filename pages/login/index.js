@@ -10,16 +10,16 @@ import Link from 'next/link'
 const Login = () => {
   const router = useRouter()
 
-  function navBtnHandler() {
-    router.push('/')
+  function buttonHandler(path) {
+    router.push(path)
   }
 
   return (
     <Container fluid>
       <Row>
         <Col lg={4} className={`${classes.col} ${classes.colOne}`} >
-          <Button variant="outline-primary" className={`${classes.authNavBtn} ${classes.outlineBtn}`} onClick={navBtnHandler} >Sign Up</Button>
-          <LoginForm />
+          <Button variant="outline-primary" className={`${classes.authNavBtn} ${classes.outlineBtn}`} onClick={buttonHandler} >Sign Up</Button>
+          <LoginForm btnHandler={buttonHandler} />
           <p className={classes.privacyLinks} ><Link href='/'>Privacy Policy</Link> and <Link href='/'>Terms of Service</Link></p>
         </Col>
         <Col lg={8} className={`${classes.col} ${classes.colTwo}`}>
@@ -37,22 +37,17 @@ const Login = () => {
   )
 }
 
-const LoginForm = () => {
-
-  function btnHandler() {
-
-  }
-
+const LoginForm = (props) => {
   return (
     <div >
       <h3>WELCOME BACK</h3>
       <h1>Login to account</h1>
       <Form.Control type="email" placeholder="Enter your email address" className={`${classes.input} mb-3`} ></Form.Control>
       <Form.Control type="password" placeholder="Enter your password" className={`${classes.input} mb-4`} ></Form.Control>
-      <Button variant="primary" className={`${classes.solidBtn} ${classes.authBtn} mb-3`} onClick={btnHandler} >
+      <Button variant="primary" className={`${classes.solidBtn} ${classes.authBtn} mb-3`} onClick={props.btnHandler.bind(null, '/dashboard')} >
         Sign in
       </Button>
-      <Button variant="outline-primary" className={`${classes.outlineBtn} ${classes.authBtn} ${classes.authGoogleBtn}`} onClick={btnHandler} >
+      <Button variant="outline-primary" className={`${classes.outlineBtn} ${classes.authBtn} ${classes.authGoogleBtn}`} onClick={props.btnHandler.bind(null, '/dashboard')} >
         <img src="/google_img.svg" alt="Google" className={classes.googleImg} />
         Sign in with google
       </Button>
