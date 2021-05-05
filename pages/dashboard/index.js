@@ -1,5 +1,5 @@
 import React from 'react'
-import { Nav } from 'react-bootstrap'
+import { Nav, Navbar } from 'react-bootstrap'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -11,18 +11,32 @@ import classes from './dashboard.module.css'
 
 const Dashboard = () => {
   return (
-    <div>
-      <Sidebar></Sidebar>
+    <div className={classes.pageWrapper} >
+      <Sidebar />
+      <Topbar />
     </div>
   )
 }
+
+const Topbar = () => {
+  return (
+    <Navbar className={`${classes.topbar} shadow-sm`} >
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse  id="basic-navbar-nav" className={`${classes.prof} d-flex align-items-center justify-content-end`} >
+        <p>Holland Pleskac</p>
+        <Image src="/prof_pic.jpg" alt="pic" width={40} height={40} className={classes.profPic} />
+      </Navbar.Collapse>
+    </Navbar>
+  )
+}
+
 
 const Sidebar = () => {
   return (
     <Nav className={`${classes.sidebar} flex-column`} >
 
       <div className={classes.sidebarHeader} >
-        <Image src="/logo-white.png" alt="Logo" width={45} height={45} />
+        <Image src="/logo-white.png" alt="Logo" width={40} height={40} />
         <h1>Splinter Bot</h1>
       </div>
 
@@ -58,8 +72,9 @@ const Sidebar = () => {
         </Nav.Link>
       </Link>
 
+      <hr className={`${classes.dividerAlt} mt-auto mb-2`} />
       <Link href='/' passHref>
-        <Nav.Link className={`${classes.sidebarLink} mt-auto mb-3`}>
+        <Nav.Link className={`${classes.sidebarLink} mt-1 mb-3`}>
           <FontAwesomeIcon icon={faSignOutAlt} className='mr-2' />
           Sign Out
         </Nav.Link>
