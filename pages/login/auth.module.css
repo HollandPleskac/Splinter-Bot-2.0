@@ -1,0 +1,27 @@
+.col {
+  height: 100vh;
+}
+
+.colOne {
+  background-color: #fff;
+}
+
+.colTwo {
+  background-color: var(--main-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.colTwo h1 {
+  font-size: 35px;
+  color: #fff;
+}
+
+.colTwo p {
+  color: #a7aff9;
+  font-size: 14px;
+  margin-top: 20px;
+  font-weight: 600;
+}
