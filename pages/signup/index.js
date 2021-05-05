@@ -18,7 +18,7 @@ const SignUp = () => {
           <Form.Control type="password" placeholder="Password" />
         </Form.Group>
         <Button variant="primary" type="submit">
-          Submit
+          sign up coming soon!
         </Button>
     </div>
   )
