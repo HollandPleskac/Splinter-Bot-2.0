@@ -13,7 +13,12 @@ const Dashboard = () => {
   return (
     <div className={classes.pageWrapper} >
       <Sidebar />
+      <div>
       <Topbar />
+      <div className={classes.pageContent} >
+        testing
+      </div>
+      </div>
     </div>
   )
 }

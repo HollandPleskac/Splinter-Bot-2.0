@@ -6,10 +6,6 @@
 
 /* Topbar */
 
-.prof {
-
-}
-
 .prof > *:last-child {
   border-radius: 1000px;
   object-fit: scale-down;
@@ -22,7 +18,6 @@
   font-size: 14px;
   color: var(--text-dark);
 }
-
 
 /* Sidebar */
 
@@ -50,14 +45,14 @@
 
 .divider {
   width: 180px;
-  background-color: rgba(255, 255, 255, 0.781); 
+  background-color: rgba(255, 255, 255, 0.781);
   margin: 0 auto;
   height: 0.5px;
 }
 
 .dividerAlt {
   width: 180px;
-  background-color: #A7AFF9 ;
+  background-color: #a7aff9;
   margin: 0 auto;
   height: 0.5px !important;
 }
@@ -79,4 +74,13 @@
 .topbar {
   height: 75px;
   width: calc(100vw - 220px);
+}
+
+/* Page Content */
+
+.pageContent {
+  background-color: #F8F8F8;
+  width: calc(100vw - 220px);
+  height: calc(100vh - 75px);
+  display: flex;
 }

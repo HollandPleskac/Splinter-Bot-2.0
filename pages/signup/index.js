@@ -1,26 +1,22 @@
 import React from 'react'
 
+
 import 'bootstrap/dist/css/bootstrap.min.css';
+import classes from './signup.module.css'
 import { Form, Button } from 'react-bootstrap'
+// import './g_test_1.css'
 
 const SignUp = () => {
+
   return (
+    <>
+    <h1>sign up page</h1>
     <div className='m-5' >
-        <Form.Group>
-          <Form.Control type="email" placeholder="Enter email" />
-        </Form.Group>
-
-        <Form.Group>
-          <Form.Control type='text' placeholder='testing' />
-        </Form.Group>
-
-        <Form.Group>
-          <Form.Control type="password" placeholder="Password" />
-        </Form.Group>
-        <Button variant="primary" type="submit">
+        <Button variant="primary ml-5" className={classes.btn} >
           sign up coming soon!
         </Button>
     </div>
+    </>
   )
 }
 
