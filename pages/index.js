@@ -1,71 +1,55 @@
 import React from 'react'
-import { Navbar, Nav, Button } from 'react-bootstrap'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-
-import 'bootstrap/dist/css/bootstrap.min.css';
-import classes from '../styles/home-page.module.css'
 
 const HomePage = () => {
-  const router = useRouter()
-
-  function buttonHandler(path) {
-    router.push(path)
-  }
-
   return (
-    <div className={classes.pageWrapper} >
-      <Navbar className='bg-white p-3 shadow-sm' expand='lg' >
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id='basic-navbar-nav' className='d-flex justify-content-around' >
-
-          <Navbar.Brand >
-            Splinter Bot
-          </Navbar.Brand>
-
-          <Nav>
-            <Link href='/' passHref><Nav.Link className='mx-2' >Home</Nav.Link></Link>
-            <Link href='/' passHref><Nav.Link className='mx-2' >About</Nav.Link></Link>
-            <Link href='/' passHref><Nav.Link className='mx-2' >Security</Nav.Link></Link>
-            <Link href='/' passHref><Nav.Link className='mx-2' >Get Started</Nav.Link></Link>
-          </Nav>
-
-          <Nav>
-            <Button variant='outline-primary' className={`${classes.outlineBtn} mr-3`} onClick={buttonHandler.bind(null, '/login')} >
-              Login
-            </Button>
-            <Button variant='outline-primary' className={classes.outlineBtn} onClick={buttonHandler.bind(null, '/signup')} >
-              Sign Up
-            </Button>
-          </Nav>
-
-        </Navbar.Collapse>
-      </Navbar>
-
-
-      <PageHeader btnHandler={buttonHandler.bind(null, '/login')} />
-
-
-
+    <div className='w-full h-screen flex flex-col ' >
+      <Header />
+      <HomeContent />
     </div>
   )
 }
 
-
-const PageHeader = (props) => {
+const Header = () => {
   return (
-    <div className={classes.header} >
-      <h1 className='mb-5' >Splinter Bot</h1>
-      <p className='mb-4' >The smartest way to play matches<br />and farm dark energy crystals </p>
-      <Button
-        variant="outline-primary"
-        className={`${classes.outlineBtn} ${classes.getStarted}`}
-        onClick={props.btnHandler}
-      >Get Started</Button>
-    </div>
+    <div className='w-full flex items-center justify-between shadow py-4 px-6' >
+      <div className='flex items-center' >
+        <img src="/logo-blue.png" width='55' alt="Logo" className='mr-3' />
+        <p className='text-xl text-gray-800' >Splinter Bot</p>
+      </div >
+      <div className='flex items-center' >
+        <LandingLink name='Home' />
+        <LandingLink name='About' />
+        <LandingLink name='Security' />
+        <LandingLink name='Get Started' />
+      </div>
+      <div className='flex items-center' >
+        <button className='text-white rounded-xl px-4 py-2 bg-blue-700 hover:bg-blue-800 transition ease-in duration-100 focus:outline-none' >Login</button>
+      </div>
+    </div >
   )
 }
 
+const LandingLink = (props) => {
+  return (
+    <a href="#" className='p-3 text-gray-800' >
+      {props.name}
+    </a>
+  )
+}
+
+
+const HomeContent = () => {
+  return (
+    <div className='w-full h-3/4 flex flex-col justify-center items-center my-auto' >
+      <h1 className='text-7xl text-blue-700 mb-9 '>Splinter Bot</h1>
+      <p className='text-lg text-center text-gray-800 mb-9' >The smartest way to farm<br />dark energy crystals.</p>
+      <div>
+        <button className=' border-2 border-blue-700 text-blue-700 hover:bg-blue-800 hover:text-white px-8 py-3 rounded-lg transition ease-in duration-100 focus:outline-none mr-4' >Learn More</button>
+        <button className='border-2 border-blue-700 bg-blue-700 text-white hover:bg-blue-800 px-8 py-3 rounded-lg transition ease-in duration-100 focus:outline-none' >Get Started</button>
+      </div>
+    </div>
+  )
+}
 
 
 export default HomePage
