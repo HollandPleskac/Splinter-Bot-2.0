@@ -16,8 +16,8 @@ module.exports = {
     },
     extend: {
       height: {
-        topbar: '80px',
-        dashContent: 'calc(100vh - 80px)'
+        topbar: '85px',
+        dashContent: 'calc(100vh - 85px)'
       }
     }
 

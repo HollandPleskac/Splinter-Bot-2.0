@@ -1,96 +1,54 @@
 import React from 'react'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlayCircle } from '@fortawesome/free-solid-svg-icons'
+import DashboardNavigation from '../components/dashboardNavigation'
+
 const dashboard = () => {
   return (
-    <div className='flex w-screen h-screen' >
-      <Sidebar />
-      <div className='flex flex-col w-full' >
-        <Topbar />
-        <PageContent />
-      </div>
-    </div>
-  )
-}
-
-const Sidebar = () => {
-  return (
-    <div className='bg-blue-700 px-5' style={{ width: '300px' }} >
-      <div className='h-topbar flex items-center'>
-        <img src="logo-white.png" alt="Logo" width='42' />
-        <h1 className='text-blue-50 text-xl ml-2' >Splinter Bot</h1>
-      </div>
-      <hr />
-      <NavLink
-        svg={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path d="M12 14l9-5-9-5-9 5 9 5z" />
-          <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
-        </svg>}
-        name='Home'
-      />
-      <hr className='border-blue-50 mt-3' />
-      <NavLink
-        svg={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path d="M12 14l9-5-9-5-9 5 9 5z" />
-          <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
-        </svg>}
-        name='Home'
-      />
-      <NavLink
-        svg={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path d="M12 14l9-5-9-5-9 5 9 5z" />
-          <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
-        </svg>}
-        name='Home'
-      />
-      <NavLink
-        svg={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path d="M12 14l9-5-9-5-9 5 9 5z" />
-          <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
-        </svg>}
-        name='Home'
-      />
-      <NavLink
-        svg={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path d="M12 14l9-5-9-5-9 5 9 5z" />
-          <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
-        </svg>}
-        name='Home'
-      />
-    </div>
-  )
-}
-
-const NavLink = (props) => {
-  return (
-    <div className='flex pt-4' >
-      {props.svg}
-      <h3 className='text-blue-50 ml-3 text-md' >{props.name}</h3>
-    </div>
-  )
-}
-
-
-const Topbar = () => {
-  return (
-    <div className='w-full h-topbar z-10 shadow'>
-      test
-    </div>
+    <DashboardNavigation>
+      <PageContent />
+    </DashboardNavigation>
   )
 }
 
 const PageContent = () => {
   return (
+    // make it so that when the btn is hovered, a different hover state is applied to the icon in the button
     <div className='flex items-center justify-around h-dashContent bg-gray-50 ' >
-      <p>button</p>
-      <p>list of buttons</p>
+
+      <div className='flex flex-col'>
+        <p className=' text-gray-400 text-center mb-4' >Server is Off</p>
+        <button className='group p-20 border-8 border-gray-300 rounded-full hover:border-gray-400 focus:outline-none transition ease in duration-100' >
+          <FontAwesomeIcon icon={faPlayCircle} className='text-5xl text-gray-400 group-hover:text-gray-500 transition ease in duration-100' />
+        </button>
+      </div>
+
+      <div className='flex flex-col'>
+        <SplinterBtn name='Fire' />
+        <SplinterBtn name='Water' />
+        <SplinterBtn name='Earth' />
+        <SplinterBtn name='Life' />
+        <SplinterBtn name='Death' />
+        <SplinterBtn name='Dragon' />
+        <SplinterBtn name='Random' />
+        <button className='border-2 bg-blue-700 border-blue-700 text-white px-16 py-2 mb-2 rounded-lg hover:bg-blue-800 hover:border-blue-800 focus:outline-none focus:bg-blue-800 focus:border-blue-800 transition ease-in duration-100' >
+          Best
+        </button>
+      </div>
+
     </div>
   )
 }
+
+const SplinterBtn = (props) => {
+  return (
+    <button className='border-2 border-gray-300 px-16 py-2 mb-2 rounded-lg hover:border-gray-400 focus:outline-none focus:border-gray-400 transition ease-in duration-100' >
+      {props.name}
+    </button>
+  )
+}
+
 
 
 export default dashboard
