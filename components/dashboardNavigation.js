@@ -31,7 +31,7 @@ const Sidebar = () => {
         <hr className='border-blue-100' />
         <SidebarLink name='Live View' icon={faEye} href='#' spacingClasses='pt-5' />
         <SidebarLink name='Statistics' icon={faSignal} href='#' spacingClasses='pt-5' />
-        <SidebarLink name='Account' icon={faUserCircle} href='#' spacingClasses='pt-5' />
+        <SidebarLink name='Account' icon={faUserCircle} href='/account' spacingClasses='pt-5' />
       </div>
       <div>
         <hr className='mb-2 border-blue-100' />
@@ -43,6 +43,8 @@ const Sidebar = () => {
 
 const SidebarLink = ({ name, icon, href, spacingClasses }) => {
   const router = useRouter()
+  // console.log(router.pathname)
+  // console.log(href)
   const activeRouteClasses = router.pathname === href ? 'text-white' : 'text-blue-100 hover:text-white'
   return (
     <Link href={href}>
