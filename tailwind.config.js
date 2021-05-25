@@ -23,7 +23,10 @@ module.exports = {
 
   },
   variants: {
-    extend: {},
+    extend: {
+      backgroundColor: ['group-focus'],
+      borderColor: ['group-focus'],
+    },
   },
   plugins: [],
 }

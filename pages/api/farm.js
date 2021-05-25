@@ -1,4 +1,6 @@
 import puppeteer from 'puppeteer'
+import firebase from 'firebase/app'
+import 'firebase/firestore'
 
 import battle from './utility/battle'
 import performRestart from './utility/perform-restart'
