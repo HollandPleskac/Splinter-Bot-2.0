@@ -55,7 +55,7 @@ const PageContent = () => {
 
       <div className='flex flex-col'>
         <p className=' text-gray-400 text-center mb-4' >Server is Off</p>
-        <button onClick={testHandler} className='group p-20 border-8 border-gray-300 rounded-full hover:border-gray-400 focus:outline-none transition ease in duration-100' >
+        <button onClick={setShouldFarmHandler} className='group p-20 border-8 border-gray-300 rounded-full hover:border-gray-400 focus:outline-none transition ease in duration-100' >
           <FontAwesomeIcon icon={faPlayCircle} className='text-5xl text-gray-400 group-hover:text-gray-500 transition ease in duration-100' />
         </button>
       </div>

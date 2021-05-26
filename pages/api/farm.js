@@ -35,32 +35,32 @@ async function farm(splinterChoice) {
   let failedWhileRestarting = false;
   let isInMatch = true;
 
-  // while (await getShouldBattle() === true) {
-  try {
-    const battleResults = await battle(page, splinterChoice);
-    // TODO send the battle results to firebase
-    console.log(battleResults)
-    battleResponse = 'stopped battling - success';
-  } catch (err) {
-    console.log(`error battling ${err}, failed count ${restartFailedCount}`);
-
+  while (await getShouldBattle() === true) {
     try {
-      await performRestart(page);
-    } catch (e) {
-      battleResponse = `failed while performing restart - check on server + ${e}`;
-      failedWhileRestarting = true;
-      await setShouldBattle(false)
-    }
+      const battleResults = await battle(page, splinterChoice);
+      // TODO send the battle results to firebase
+      console.log(battleResults)
+      battleResponse = 'stopped battling - success';
+    } catch (err) {
+      console.log(`error battling ${err}, failed count ${restartFailedCount}`);
+
+      try {
+        await performRestart(page);
+      } catch (e) {
+        battleResponse = `failed while performing restart - check on server + ${e}`;
+        failedWhileRestarting = true;
+        await setShouldBattle(false)
+      }
 
 
-    restartFailedCount++;
-    if (restartFailedCount >= 20 && failedWhileRestarting === false) {
-      battleResponse = `failed while battling - manual restart required + ${err}`;
-      await setShouldBattle(false)
+      restartFailedCount++;
+      if (restartFailedCount >= 20 && failedWhileRestarting === false) {
+        battleResponse = `failed while battling - manual restart required + ${err}`;
+        await setShouldBattle(false)
+      }
     }
+
   }
-
-  // }
   isInMatch = false;
   await browser.close()
 
