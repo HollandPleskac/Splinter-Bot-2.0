@@ -1,3 +1,5 @@
+import {getSplinterFromConversionRates} from './firestore'
+
 async function pickSummoner(page, availiableSplinters, splinterChoice, lastOpponentSplinter, manaCap, battleRule) {
   console.log('last splinter the opponent played:', lastOpponentSplinter);
 
@@ -17,7 +19,7 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
         } else if (name === 'Drake of Arnak' || name === 'Kretch Tallevor') {
           return 'dragon';
         } else {
-          throw `name of summoner ${name} couldn't be matched to a splinter ln22 picksummoner.js`;
+          throw `name of summoner ${name} couldn't be matched to a splinter ln20 picksummoner.js`;
         }
       }
 
@@ -86,7 +88,7 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
 
     let chosenSplinter;
     if (splinterChoice === 'best') {
-      chosenSplinter = await firestore.getSplinterFromConversionRates(lastOppSplinter, availiableSplinters, battleRule);
+      chosenSplinter = await getSplinterFromConversionRates(lastOppSplinter, availiableSplinters, battleRule);
     } else if (splinterChoice === 'random') {
       chosenSplinter = getRandomSplinter(availiableSplinters);
     } else {
@@ -135,7 +137,7 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
 
       console.log('Dragon splinters : ', dragonSplinters);
       const dragonSplinterNames = dragonSplinters.map(dragonSplinter => dragonSplinter.splinterName);
-      const bestDragonSplinter = await firestore.getSplinterFromConversionRates(lastOpponentSplinter, dragonSplinterNames, battleRule);
+      const bestDragonSplinter = await getSplinterFromConversionRates(lastOpponentSplinter, dragonSplinterNames, battleRule);
 
       console.log('Chosen splinter based on conversion rates : ', bestDragonSplinter);
 

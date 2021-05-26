@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import axios from 'axios'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
@@ -20,13 +20,22 @@ const dashboard = () => {
 }
 
 const PageContent = () => {
+  const [serverOn, setServerOn] = useState(false)
 
-  const setShouldFarmHandler = async () => {
+  const battleHandler = async () => {
     try {
+      // toggle shouldBattle
       const userDoc = await firebase.firestore().collection('Users').doc('dpleskac@gmail.com').get()
       await firebase.firestore().collection('Users').doc('dpleskac@gmail.com').update({
         shouldFarm: !userDoc.data().shouldFarm
       })
+
+      // If not in match and start --> battle
+      const newUserDoc = await firebase.firestore().collection('Users').doc('dpleskac@gmail.com').get()
+      if (!newUserDoc.data().isInMatch && newUserDoc.data().shouldFarm) {
+        const res = await axios.post('/api/farm')
+        console.log(res)
+      }
     } catch (e) {
       console.log(e)
     }
@@ -42,20 +51,18 @@ const PageContent = () => {
     }
   }
 
-  async function testHandler() {
-    const res = await axios.post('/api/test', {
-      status: false
+  useEffect(async () => {
+    firebase.firestore().collection('Users').doc('dpleskac@gmail.com').onSnapshot(doc => {
+      setServerOn(doc.data().shouldFarm)
     })
-    console.log(res)
-  }
-
+  }, [])
 
   return (
     <div className='flex items-center justify-around h-dashContent bg-gray-50 ' >
 
       <div className='flex flex-col'>
-        <p className=' text-gray-400 text-center mb-4' >Server is Off</p>
-        <button onClick={setShouldFarmHandler} className='group p-20 border-8 border-gray-300 rounded-full hover:border-gray-400 focus:outline-none transition ease in duration-100' >
+        <p className=' text-gray-400 text-center mb-4' >{'Server is ' + (serverOn ? 'On' : 'Off')}</p>
+        <button onClick={battleHandler} className='group p-20 border-8 border-gray-300 rounded-full hover:border-gray-400 focus:outline-none transition ease in duration-100' >
           <FontAwesomeIcon icon={faPlayCircle} className='text-5xl text-gray-400 group-hover:text-gray-500 transition ease in duration-100' />
         </button>
       </div>

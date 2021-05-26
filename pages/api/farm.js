@@ -1,14 +1,14 @@
-import puppeteer from 'puppeteer'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 
 import battle from './utility/battle'
 import performRestart from './utility/perform-restart'
 import openSplinterlands from './utility/open-splinterlands'
+import { logBattle } from './summoner/firestore'
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const battleResponse = await farm(req.body.splinterChoice)
+    const battleResponse = await farm()
     console.log(battleResponse)
     res.json({ result: 'success' })
   } else {
@@ -27,43 +27,79 @@ async function setShouldBattle(newStatus) {
   })
 }
 
-async function farm(splinterChoice) {
+const setIsInMatch = async (matchStatus) => {
+  await firebase.firestore().collection('Users').doc('dpleskac@gmail.com').update({
+    isInMatch: matchStatus
+  })
+}
 
-  let { browser, page } = await openSplinterlands()
-  let battleResponse = 'stopped battling - success';
+
+async function farm() {
+
+  await setIsInMatch(true)
+  let browser, page
+  let battleResponse;
   let restartFailedCount = 0;
-  let failedWhileRestarting = false;
-  let isInMatch = true;
 
+  // OPEN SPLINTER LANDS
+  try {
+    const { browser: returnedBrowser, page: returnedPage } = await openSplinterlands()
+    browser = returnedBrowser
+    page = returnedPage
+  } catch (e) {
+    if (e.message === 'Navigation failed because browser has disconnected!' || e.message === 'Protocol error (Runtime.callFunctionOn): Session closed. Most likely the page has been closed.') {
+      await setIsInMatch(false)
+      await setShouldBattle(false)
+    }
+  }
+
+  // BATTLE AS LONG AS DESIRED
   while (await getShouldBattle() === true) {
     try {
+
+      // BATTLE
+      const splinterChoice = await firebase.firestore().collection('Users').doc('dpleskac@gmail.com').get().then(doc => doc.data().splinterChoice)
+      console.log(splinterChoice, 'choice')
       const battleResults = await battle(page, splinterChoice);
-      // TODO send the battle results to firebase
+      await logBattle(battleResults)
       console.log(battleResults)
       battleResponse = 'stopped battling - success';
-    } catch (err) {
-      console.log(`error battling ${err}, failed count ${restartFailedCount}`);
 
+    } catch (err) {
+      console.log(`error battling ${err.message}, failed count ${restartFailedCount}`)
+
+      // HANDLE BROSWER DISCONNECT ERR
+      if (err.message === 'Protocol error (Runtime.callFunctionOn): Session closed. Most likely the page has been closed.' || err.message === 'Protocol error (Runtime.callFunctionOn): Target closed.') {
+        await setIsInMatch(false)
+      } else {
+        console.log('browser disconnect NOT detected', err.message)
+      }
+
+      // TRY PERFORMING A RESTART
       try {
         await performRestart(page);
       } catch (e) {
-        battleResponse = `failed while performing restart - check on server + ${e}`;
-        failedWhileRestarting = true;
-        await setShouldBattle(false)
+        console.log('failed restarting', e.message)
       }
 
-
+      //  CLOSE IF RESTARTING TOO MANY TIMES
       restartFailedCount++;
-      if (restartFailedCount >= 20 && failedWhileRestarting === false) {
-        battleResponse = `failed while battling - manual restart required + ${err}`;
+      if (restartFailedCount >= 20) {
+        battleResponse = `failed too many times - manual restart required + ${err}`;
         await setShouldBattle(false)
       }
     }
 
   }
-  isInMatch = false;
-  await browser.close()
 
+  // EXIT THE BROWSER
+  try {
+    await browser.close()
+  } catch (e) {
+    console.log('couldnt close browser, might have already been closed')
+  }
+
+  await setIsInMatch(false)
   return battleResponse
 
 }

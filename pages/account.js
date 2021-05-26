@@ -50,10 +50,10 @@ const PageContent = () => {
       <button onClick={testServer} >test</button>
 
 
-      <button className="group p-5 bg-blue-400" >
+      <div tabIndex='0' className="group p-5 bg-blue-400" >
         <button className='border-2 border-blue-200 bg-white group-focus:bg-yellow-400' >Group focus bg color</button>
         <h1 className='group-hover:bg-blue-900' >Group Focus Border</h1>
-      </button>
+      </div>
     </div>
   )
 }
