@@ -70,7 +70,7 @@ async function farm() {
 
       // HANDLE BROSWER DISCONNECT ERR
       if (err.message === 'Protocol error (Runtime.callFunctionOn): Session closed. Most likely the page has been closed.' || err.message === 'Protocol error (Runtime.callFunctionOn): Target closed.') {
-        await setIsInMatch(false)
+        await setShouldBattle(false)
       } else {
         console.log('browser disconnect NOT detected', err.message)
       }
