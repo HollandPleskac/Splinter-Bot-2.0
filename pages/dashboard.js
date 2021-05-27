@@ -21,6 +21,7 @@ const dashboard = () => {
 
 const PageContent = () => {
   const [serverOn, setServerOn] = useState(false)
+  const [pickedSplinter, setPickedSplinter] = useState(' 2323')
 
   const battleHandler = async () => {
     try {
@@ -41,19 +42,10 @@ const PageContent = () => {
     }
   }
 
-  const setSplinterChoiceHandler = async (newSplinterChoice) => {
-    try {
-      await firebase.firestore().collection('Users').doc('dpleskac@gmail.com').update({
-        splinterChoice: newSplinterChoice.toLowerCase()
-      })
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
   useEffect(async () => {
     firebase.firestore().collection('Users').doc('dpleskac@gmail.com').onSnapshot(doc => {
       setServerOn(doc.data().shouldFarm)
+      setPickedSplinter(doc.data().splinterChoice)
     })
   }, [])
 
@@ -68,16 +60,14 @@ const PageContent = () => {
       </div>
 
       <div className='flex flex-col'>
-        <SplinterBtn name='Fire' fn={setSplinterChoiceHandler.bind(null, 'fire')} />
-        <SplinterBtn name='Water' fn={setSplinterChoiceHandler.bind(null, 'water')} />
-        <SplinterBtn name='Earth' fn={setSplinterChoiceHandler.bind(null, 'earth')} />
-        <SplinterBtn name='Life' fn={setSplinterChoiceHandler.bind(null, 'life')} />
-        <SplinterBtn name='Death' fn={setSplinterChoiceHandler.bind(null, 'death')} />
-        <SplinterBtn name='Dragon' fn={setSplinterChoiceHandler.bind(null, 'dragon')} />
-        <SplinterBtn name='Random' fn={setSplinterChoiceHandler.bind(null, 'random')} />
-        <button onClick={setSplinterChoiceHandler.bind(null, 'best')} className='border-2 bg-blue-700 border-blue-700 text-white px-16 py-2 mb-2 rounded-lg hover:bg-blue-800 hover:border-blue-800 focus:outline-none focus:bg-blue-800 focus:border-blue-800 transition ease-in duration-100' >
-          Best
-        </button>
+        <SplinterBtn name='Fire' picked={pickedSplinter} />
+        <SplinterBtn name='Water' picked={pickedSplinter} />
+        <SplinterBtn name='Earth' picked={pickedSplinter} />
+        <SplinterBtn name='Life' picked={pickedSplinter} />
+        <SplinterBtn name='Death' picked={pickedSplinter} />
+        <SplinterBtn name='Dragon' picked={pickedSplinter} />
+        <SplinterBtn name='Random' picked={pickedSplinter} />
+        <SplinterBtn name='Best' picked={pickedSplinter} />
       </div>
 
     </div>
@@ -85,9 +75,26 @@ const PageContent = () => {
 }
 
 const SplinterBtn = (props) => {
+  console.log('splinter button information', props)
+
+  const setSplinterChoiceHandler = async () => {
+    try {
+      await firebase.firestore().collection('Users').doc('dpleskac@gmail.com').update({
+        splinterChoice: props.name.toLowerCase()
+      })
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const unSelectedClasses = 'border-2 border-gray-300 px-16 py-2 mb-2 rounded-lg hover:border-gray-400 focus:outline-none transition ease-in duration-100'
+  const selectedClasses = 'border-2 bg-blue-700 border-blue-700 text-white px-16 py-2 mb-2 rounded-lg hover:bg-blue-800 hover:border-blue-800 focus:outline-none transition ease-in duration-100'
 
   return (
-    <button onClick={props.fn} className='border-2 border-gray-300 px-16 py-2 mb-2 rounded-lg hover:border-gray-400 focus:outline-none focus:border-gray-400 transition ease-in duration-100' >
+    <button
+      onClick={setSplinterChoiceHandler}
+      className={props.picked === props.name.toLowerCase() ? selectedClasses : unSelectedClasses}
+    >
       {props.name}
     </button>
   )
