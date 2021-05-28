@@ -64,7 +64,6 @@ const UpdateButton = (props) => {
   const disabledClasses = 'bg-gray-500 cursor-default'
   const btnClasses = (props.email && props.password) ? enabledClasses : disabledClasses
   return (
-    // (email && password) && 
     <button onClick={props.openPopup} className={`w-1/3 h-12 rounded text-white focus:outline-none transition ease-in duration-100 ` + btnClasses} >Update</button>
   )
 }

@@ -4,7 +4,7 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlayCircle } from '@fortawesome/free-solid-svg-icons'
+import { faPlayCircle, faPauseCircle } from '@fortawesome/free-solid-svg-icons'
 import DashboardNavigation from '../components/dashboardNavigation'
 import AuthContext from '../context/authContext'
 
@@ -54,8 +54,8 @@ const PageContent = () => {
 
       <div className='flex flex-col'>
         <p className=' text-gray-400 text-center mb-4' >{'Server is ' + (serverOn ? 'On' : 'Off')}</p>
-        <button onClick={battleHandler} className='group p-20 border-8 border-gray-300 rounded-full hover:border-gray-400 focus:outline-none transition ease in duration-100' >
-          <FontAwesomeIcon icon={faPlayCircle} className='text-5xl text-gray-400 group-hover:text-gray-500 transition ease in duration-100' />
+        <button onClick={battleHandler} className='group p-20 border-4 rounded-full border-gray-400 focus:outline-none transition ease in duration-100' >
+          <FontAwesomeIcon icon={serverOn ? faPauseCircle : faPlayCircle} className='text-5xl text-gray-400 group-hover:text-gray-500 transition ease in duration-100' />
         </button>
       </div>
 
