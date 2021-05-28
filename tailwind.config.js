@@ -18,6 +18,9 @@ module.exports = {
       height: {
         topbar: '85px',
         dashContent: 'calc(100vh - 85px)'
+      },
+      backgroundColor: {
+        modal: 'rgba(0,0,0,0.2)'
       }
     }
 
