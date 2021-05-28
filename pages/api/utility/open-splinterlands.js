@@ -1,6 +1,11 @@
 const puppeteer = require('puppeteer');
+import firebase from 'firebase/app'
+import 'firebase/firestore'
 
-async function openSplinterlands(username = 'dpleskac@gmail.com', password = '4pokemon') {
+async function openSplinterlands() {
+  const username = await firebase.firestore().collection('Users').doc('dpleskac@gmail.com').get().then(doc => doc.data().email)
+  const password = await firebase.firestore().collection('Users').doc('dpleskac@gmail.com').get().then(doc => doc.data().password)
+
   const browser = await puppeteer.launch({
     headless: false,
     // args: ['--no-sandbox', '--disable-setuid-sandbox'],

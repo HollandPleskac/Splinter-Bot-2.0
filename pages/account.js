@@ -64,7 +64,7 @@ const Popup = (props) => {
   return (
     <>
       <div className='absolute inset-0 flex items-center justify-center bg-modal cursor-pointer' >
-        <div className='relative p-10 bg-white rounded-md shadow-lg' >
+        <div className='relative px-14 py-10 bg-white rounded-md shadow-lg' >
           <FontAwesomeIcon icon={faTimes} onClick={props.onClickPopup} className='absolute right-4 top-4 text-gray-800 hover:text-red-500 transition ease-in duration-100' />
           <h1 className='mb-4 text-center text-gray-800 text-lg' >Confirm Changes</h1>
           <p>
@@ -74,7 +74,7 @@ const Popup = (props) => {
           </p>
           <button
             onClick={buttonHandler}
-            className='w-full py-3 mt-4 text-blue-600 bg-white border-2 border-blue-600 hover:border-blue-700 hover:text-blue-700 rounded focus:outline-none transition ease-in duration-100'
+            className='w-full px-3 py-3 mt-4 text-blue-600 bg-white border-2 border-blue-600 hover:border-blue-700 hover:text-blue-700 rounded focus:outline-none transition ease-in duration-100'
           >
             {!btnClicked ? 'Everything looks good' : <span>Update Success <FontAwesomeIcon icon={faCheckDouble} /></span>}
           </button>
