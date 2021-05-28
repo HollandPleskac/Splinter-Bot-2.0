@@ -13,3 +13,16 @@ function MyApp({ Component, pageProps }) {
 }
 
 export default MyApp
+
+// TODO
+/*
+
+  Account
+  have a modal that you can click on to close
+  clear email and passwords after closing the modal
+  lock update button until the user enters some information to start
+
+  Dashboard
+  restyle the button
+
+*/
