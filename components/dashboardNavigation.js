@@ -27,7 +27,7 @@ const Sidebar = () => {
           <h1 className='text-blue-50 text-xl ml-2' >Splinter Bot</h1>
         </div>
         <hr />
-        <SidebarLink name='Dashboard' icon={faTachometerAlt} href='/dashboard' spacingClasses='py-4' />
+        <SidebarLink name='Dashboard' icon={faTachometerAlt} href='/dashboard' spacingClasses='py-5' />
         <hr className='border-blue-100' />
         <SidebarLink name='Live View' icon={faEye} href='#' spacingClasses='pt-5' />
         <SidebarLink name='Statistics' icon={faSignal} href='#' spacingClasses='pt-5' />
@@ -50,7 +50,7 @@ const SidebarLink = ({ name, icon, href, spacingClasses }) => {
     <Link href={href}>
       <div className={`flex items-center cursor-pointer transition ease-in duration-100 ` + activeRouteClasses + ' ' + spacingClasses} >
         <FontAwesomeIcon icon={icon} />
-        <h3 className='ml-3 mt-px text-md' >{name}</h3>
+        <h3 className='ml-3 mt-px text-sm' >{name}</h3>
       </div>
     </Link>
   )
