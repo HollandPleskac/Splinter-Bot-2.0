@@ -10,9 +10,9 @@ const AuthContext = React.createContext({
 export const AuthContextProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const router = useRouter()
-  console.log(router.pathname)
 
   useEffect(() => {
+    // auth state changes from firestore
     if (!isLoggedIn && router.pathname !== '/') {
       console.log('user unathenticated, logging out')
     } else {
@@ -20,12 +20,20 @@ export const AuthContextProvider = (props) => {
     }
   }, [isLoggedIn])
 
+  const login = (email, password) => {
+    // login from firebase (email and password)
+  }
+
+  const logout = () => {
+    // logout of firebase
+  }
+
   return (
     <AuthContext.Provider
       value={{
-        isLoggedIn: false,
-        onLogout: () => { },
-        onLogin: () => { },
+        isLoggedIn: isLoggedIn,
+        onLogin: login,
+        onLogout: logout,
       }}>
       { props.children}
     </AuthContext.Provider >
@@ -34,3 +42,11 @@ export const AuthContextProvider = (props) => {
 }
 
 export default AuthContext
+
+// code login ui
+// code signup ui
+
+// login function
+// signup function
+
+// hook up links to buttons
