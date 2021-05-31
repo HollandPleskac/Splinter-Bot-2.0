@@ -6,16 +6,16 @@ import HomePage from '../pages/index'
 const ProtectRoute = (props) => {
   const router = useRouter()
   const ctx = useContext(AuthContext)
-  console.log('user from context', ctx.user, 'is loading', ctx.isLoading)
+
   const isOnProtectedRoute = !ctx.isLoading && (router.pathname !== '/' && router.pathname !== '/login' && router.pathname !== '/signup')
 
   if (ctx.isLoading) {
-    return <div></div>
+    return <div></div> // wait to get a user result from AuthContext before making a decision on which page to go to
   }
 
-  if (isOnProtectedRoute && ctx.user === null || ctx.user === undefined || ctx.user === {}) {
+  if (isOnProtectedRoute && ctx.user === null) {
     router.push('/')
-    return <div></div> // pushes to / before returning empty div
+    return <div></div> // no user and accessing protected route: pushes to / before returning empty div
   } else {
     return props.children
   }
