@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useState, useContext, useRef } from 'react'
 import { useRouter } from 'next/router'
 import AuthContext from '../context/authContext'
 
@@ -8,6 +8,10 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 const Signup = () => {
   const ctx = useContext(AuthContext)
   const router = useRouter()
+  const emailRef = useRef()
+  const passwordRef = useRef()
+  const passwordConfirmRef = useRef()
+  const [feedback, setFeedback] = useState('')
 
   const arrowBackHandler = () => {
     router.push('/')
@@ -17,8 +21,16 @@ const Signup = () => {
     router.push('/login')
   }
 
-  const registerBtnHandler = () => {
-    console.log('signing up...')
+  const registerHandler = async () => {
+    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+      setFeedback('Password not equal to confirm password')
+      return;
+    }
+
+    const res = await ctx.onSignup(emailRef.current.value, passwordRef.current.value)
+    if (res !== 'success') {
+      setFeedback(res)
+    }
   }
 
 
@@ -28,12 +40,16 @@ const Signup = () => {
       <div className='flex flex-col w-96' >
         <p className='text-sm' >&nbsp;</p>
         <h1 className='text-center mb-4 text-3xl font-semibold' >Sign Up</h1>
-        <p onClick={navHandler} className='text-center mb-4 text-md' >Already have an account? <span className='text-blue-600 font-semibold cursor-pointer' >Sign in!</span></p>
-        <Input placeholder='email' />
-        <Input placeholder='password' />
-        <Input placeholder='confirm password' />
-        <Button onClick={registerBtnHandler} />
-        <p className='mt-3 text-center text-gray-800 text-sm' >&nbsp;</p>
+        <p className='text-center mb-4 text-md' >Already have an account? <span onClick={navHandler} className='text-blue-600 font-semibold cursor-pointer' >Sign in!</span></p>
+        <Input placeholder='email' r={emailRef} />
+        <Input placeholder='password' r={passwordRef} />
+        <Input placeholder='confirm password' r={passwordConfirmRef} />
+        <Button onClick={registerHandler} />
+        {
+          feedback
+            ? <p className='mt-3 text-center text-gray-800 text-sm' >{feedback}</p>
+            : <p className='mt-3 text-gray-800 text-sm' >&nbsp;</p>
+        }
       </div>
       <FontAwesomeIcon icon={faArrowLeft} onClick={arrowBackHandler} className='absolute top-0 left-0 ml-12 mt-12 text-2xl text-gray-800 cursor-pointer' />
     </div>
@@ -45,6 +61,7 @@ const Input = (props) => {
     <input
       type="text"
       placeholder={props.placeholder}
+      ref={props.r}
       className='w-96 h-12 pl-4 mb-4 text-gray-800 border-2 border-gray-400 rounded focus:ring-2 focus:border-blue-300 focus:ring-blue-400 focus:ring-opacity-50 focus:outline-none transition ease-in duration-100'
     />
   )

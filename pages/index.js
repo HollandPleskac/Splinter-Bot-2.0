@@ -1,4 +1,6 @@
 import React from 'react'
+import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 const HomePage = () => {
   return (
@@ -10,6 +12,12 @@ const HomePage = () => {
 }
 
 const Header = () => {
+  const router = useRouter()
+  const navHandler = (params) => {
+    router.push('/login')
+  }
+
+
   return (
     <div className='w-full flex items-center justify-between shadow py-4 px-6' >
       <div className='flex items-center' >
@@ -17,13 +25,13 @@ const Header = () => {
         <p className='text-xl text-gray-800' >Splinter Bot</p>
       </div >
       <div className='flex items-center' >
-        <LandingLink name='Home' />
-        <LandingLink name='About' />
-        <LandingLink name='Security' />
-        <LandingLink name='Get Started' />
+        <LandingLink name='Home' href='#' />
+        <LandingLink name='About' href='#' />
+        <LandingLink name='Security' href='#' />
+        <LandingLink name='Get Started' href='#' />
       </div>
       <div className='flex items-center' >
-        <button className='text-white rounded-xl px-4 py-2 bg-blue-700 hover:bg-blue-800 transition ease-in duration-100 focus:outline-none' >Login</button>
+        <button onClick={navHandler} className='text-white rounded-xl px-4 py-2 bg-blue-700 hover:bg-blue-800 transition ease-in duration-100 focus:outline-none' >Login</button>
       </div>
     </div >
   )
@@ -31,9 +39,11 @@ const Header = () => {
 
 const LandingLink = (props) => {
   return (
-    <a href="#" className='p-3 text-gray-800' >
-      {props.name}
-    </a>
+    <Link href={props.href} passHref >
+      <a className='p-3 text-gray-800' >
+        {props.name}
+      </a>
+    </Link>
   )
 }
 

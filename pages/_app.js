@@ -1,13 +1,16 @@
 import '../styles/styles.css'
 import { AuthContextProvider } from '../context/authContext'
 import initFirebase from '../firebase/initFirebase'
+import ProtectRoute from '../components/protectRoute'
 
 initFirebase()
 
 function MyApp({ Component, pageProps }) {
   return (
     <AuthContextProvider>
-      <Component {...pageProps} />
+      <ProtectRoute>
+        <Component {...pageProps} />
+      </ProtectRoute>
     </AuthContextProvider>
   )
 }

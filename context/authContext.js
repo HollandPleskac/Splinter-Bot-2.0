@@ -1,38 +1,71 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
+import firebase from 'firebase/app'
+import 'firebase/auth'
+
 const AuthContext = React.createContext({
-  isLoggedIn: false,
-  onLogout: () => { },
-  onLogin: (email, password) => { }
+  user: null,
+  isLoading: true,
+  onLogout: async () => { },
+  onSignup: async (email, password) => { },
+  onLogin: async (email, password) => { }
 })
 
 export const AuthContextProvider = (props) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const router = useRouter()
+  const [user, setUser] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // auth state changes from firestore
-    if (!isLoggedIn && router.pathname !== '/') {
-      console.log('user unathenticated, logging out')
-    } else {
-      console.log('user authenticated, coninue using server')
-    }
-  }, [isLoggedIn])
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        setUser(user)
+      }
+      setIsLoading(false)
+    });
+  }, [])
 
-  const login = (email, password) => {
-    // login from firebase (email and password)
+  const login = async (email, password) => {
+    try {
+      const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password)
+      const user = userCredential.user
+      router.push('/dashboard')
+      return 'success'
+    } catch (e) {
+      console.log('error occurred', e)
+      return e.message
+    }
   }
 
-  const logout = () => {
-    // logout of firebase
+  const signup = async (email, password) => {
+    try {
+      const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password)
+      const user = userCredential.user
+      router.push('/dashboard')
+      return 'success'
+    } catch (e) {
+      console.log('error occurred', e)
+      return e.message
+    }
+  }
+
+  const logout = async () => {
+    firebase.auth().signOut().then(() => {
+      console.log('signed out successfully')
+      router.push('/')
+    }).catch((error) => {
+      console.log('error occurred while signing out', error)
+    });
   }
 
   return (
     <AuthContext.Provider
       value={{
-        isLoggedIn: isLoggedIn,
+        user: user,
+        isLoading: isLoading,
         onLogin: login,
+        onSignup: signup,
         onLogout: logout,
       }}>
       { props.children}

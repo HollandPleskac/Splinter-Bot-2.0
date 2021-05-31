@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import authContext from '../context/authContext'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTachometerAlt, faEye, faSignal, faUserCircle, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import AuthContext from '../context/authContext'
 
 const DashboardNavigation = (props) => {
   return (
@@ -35,7 +37,7 @@ const Sidebar = () => {
       </div>
       <div>
         <hr className='mb-2 border-blue-100' />
-        <SidebarLink name='Sign Out' icon={faSignOutAlt} href='#' spacingClasses='pt-4 pb-5' />
+        <SignOutLink />
       </div>
     </div>
   )
@@ -55,6 +57,22 @@ const SidebarLink = ({ name, icon, href, spacingClasses }) => {
     </Link>
   )
 }
+
+const SignOutLink = () => {
+  const ctx = useContext(AuthContext)
+
+  const signOutHandler = async () => {
+    await ctx.onLogout()
+  }
+
+  return (
+    <div tabIndex='-1' onClick={signOutHandler} className='pt-4 pb-5 flex items-center text-blue-100 hover:text-white cursor-pointer transition ease-in duration-100' >
+      <FontAwesomeIcon icon={faSignOutAlt} />
+      <h3 className='ml-3 mt-px text-sm' >Sign Out</h3>
+    </div>
+  )
+}
+
 
 
 const Topbar = () => {

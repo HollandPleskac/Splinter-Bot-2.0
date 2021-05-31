@@ -75,8 +75,6 @@ const PageContent = () => {
 }
 
 const SplinterBtn = (props) => {
-  console.log('splinter button information', props)
-
   const setSplinterChoiceHandler = async () => {
     try {
       await firebase.firestore().collection('Users').doc('dpleskac@gmail.com').update({
@@ -88,7 +86,7 @@ const SplinterBtn = (props) => {
   }
 
   const unSelectedClasses = 'border-2 border-gray-300 px-16 py-2 mb-2 rounded-lg hover:border-gray-400 focus:outline-none transition ease-in duration-100'
-  const selectedClasses = 'border-2 bg-blue-700 border-blue-700 text-white px-16 py-2 mb-2 rounded-lg hover:bg-blue-800 hover:border-blue-800 focus:outline-none transition ease-in duration-100'
+  const selectedClasses = 'border-2 bg-blue-700 border-blue-700 text-white px-16 py-2 mb-2 rounded-lg focus:outline-none transition ease-in duration-100'
 
   return (
     <button
