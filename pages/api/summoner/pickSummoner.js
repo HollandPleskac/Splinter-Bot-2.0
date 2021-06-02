@@ -1,4 +1,4 @@
-import {getSplinterFromConversionRates} from './firestore'
+import { getSplinterFromConversionRates } from './firestore'
 
 async function pickSummoner(page, availiableSplinters, splinterChoice, lastOpponentSplinter, manaCap, battleRule) {
   console.log('last splinter the opponent played:', lastOpponentSplinter);
@@ -10,13 +10,13 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
           return 'fire';
         } else if (name === 'Bortus' || name === 'Alric Stormbringer') {
           return 'water';
-        } else if (name === 'Wizard of Eastwood' || name === 'Lyanna Natura') {
+        } else if (name === 'Wizard of Eastwood' || name === 'Lyanna Natura' || name === 'Mylor Crowling') {
           return 'earth';
-        } else if (name === 'Mother Khala' || name === 'Tyrus Paladium') {
+        } else if (name === 'Mother Khala' || name === 'Tyrus Paladium' || name === 'Lorna Shine') {
           return 'life';
         } else if (name === 'Contessa L\'ament' || name === 'Mimosa Nightshade' || name === 'Zintar Mortalis') {
           return 'death';
-        } else if (name === 'Drake of Arnak' || name === 'Kretch Tallevor') {
+        } else if (name === 'Drake of Arnak' || name === 'Kretch Tallevor' || name === 'Brighton Bloom') {
           return 'dragon';
         } else {
           throw `name of summoner ${name} couldn't be matched to a splinter ln20 picksummoner.js`;

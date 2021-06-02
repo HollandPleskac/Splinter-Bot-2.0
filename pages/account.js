@@ -63,8 +63,17 @@ const UpdateButton = (props) => {
   const enabledClasses = 'bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-400 focus:ring-opacity-50'
   const disabledClasses = 'bg-gray-500 cursor-default'
   const btnClasses = (props.email && props.password) ? enabledClasses : disabledClasses
+
+  const updateHandler = () => {
+    if (props.email && props.password)
+      props.openPopup()
+    else
+      null
+  }
+
+
   return (
-    <button onClick={props.openPopup} className={`w-1/3 h-12 rounded text-white focus:outline-none transition ease-in duration-100 ` + btnClasses} >Update</button>
+    <button onClick={updateHandler} className={`w-1/3 h-12 rounded text-white focus:outline-none transition ease-in duration-100 ` + btnClasses} >Update</button>
   )
 }
 
