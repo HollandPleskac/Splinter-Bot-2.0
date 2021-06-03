@@ -43,10 +43,13 @@ const PageContent = () => {
   }
 
   useEffect(async () => {
-    firebase.firestore().collection('Users').doc('dpleskac@gmail.com').onSnapshot(doc => {
+    const unsubscribe = firebase.firestore().collection('Users').doc('dpleskac@gmail.com').onSnapshot(doc => {
       setServerOn(doc.data().shouldFarm)
       setPickedSplinter(doc.data().splinterChoice)
     })
+    return () => {
+      unsubscribe()
+    }
   }, [])
 
   return (

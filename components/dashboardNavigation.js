@@ -32,7 +32,7 @@ const Sidebar = () => {
         <SidebarLink name='Dashboard' icon={faTachometerAlt} href='/dashboard' spacingClasses='py-5' />
         <hr className='border-blue-100' />
         <SidebarLink name='Live View' icon={faEye} href='#' spacingClasses='pt-5' />
-        <SidebarLink name='Statistics' icon={faSignal} href='#' spacingClasses='pt-5' />
+        <SidebarLink name='Statistics' icon={faSignal} href='/statistics' spacingClasses='pt-5' />
         <SidebarLink name='Account' icon={faUserCircle} href='/account' spacingClasses='pt-5' />
       </div>
       <div>

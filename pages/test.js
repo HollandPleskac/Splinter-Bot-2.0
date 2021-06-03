@@ -41,7 +41,7 @@ const LineChart = () => (
             display: true,
             position: 'right',
             labels: {
-              pointStyle: 'circle',
+              pointStyle: 'rectRounded',
               usePointStyle: true
             }
           }
