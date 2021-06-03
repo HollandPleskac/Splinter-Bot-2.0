@@ -43,6 +43,21 @@ const MatchesLineChart = () => {
     return result;
   };
 
+
+
+
+// ------------------------------------- TODO -----------------------------------------------
+
+  // date 8 days ago needs to be date 7 days ago at 1:01am in the morning to properly calulate days
+  // broken rn because last weeks matches get added to the current day's matches
+
+//
+
+
+
+
+
+
   const setMatchData = async () => {
     const matchesPerDay = []
 
