@@ -23,7 +23,7 @@ export const AuthContextProvider = (props) => {
         setUser(user)
       }
       setIsLoading(false)
-    });
+    })
   }, [])
 
   const login = async (email, password) => {
@@ -53,7 +53,7 @@ export const AuthContextProvider = (props) => {
   const logout = async () => {
     firebase.auth().signOut().then(() => {
       console.log('signed out successfully')
-      router.push('/')
+      router.push('/') // TODO ask uncle mark why signing out use wont trigger ProtectRoute component to rebuild.
     }).catch((error) => {
       console.log('error occurred while signing out', error)
     });

@@ -11,6 +11,7 @@ const Login = () => {
   const emailRef = useRef()
   const passwordRef = useRef()
   const [feedback, setFeedback] = useState('')
+  console.log(ctx.user, ' is using the app')
 
   const arrowBackHandler = () => {
     router.push('/')

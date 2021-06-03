@@ -3,6 +3,8 @@ import { Line, Bar } from "react-chartjs-2";
 import DashboardNavigation from "../components/dashboardNavigation";
 import firebase from 'firebase/app'
 import 'firebase/firestore'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 
 function isOnSameDay(timestamp1, timestamp2) {
   const day1 = new Date(timestamp1).toString().split(' ')[0];
@@ -17,12 +19,15 @@ function isOnSameDay(timestamp1, timestamp2) {
 const Statistics = () => {
   return (
     <DashboardNavigation>
-      <div className="h-dashContent flex justify-center items-center">
-        <div style={{ width: 500 }} >
-          <MatchesLineChart />
-        </div>
-        <div style={{ width: 500, height: 240 }} >
-          <WinRatioBarChart />
+      <div className="h-dashContent flex flex-col justify-center items-center">
+
+        <div className='flex' >
+          <div style={{ width: 500 }} >
+            <MatchesLineChart />
+          </div>
+          <div style={{ width: 500, height: 240 }} >
+            <WinRatioBarChart />
+          </div>
         </div>
       </div>
     </DashboardNavigation>
@@ -43,28 +48,17 @@ const MatchesLineChart = () => {
     return result;
   };
 
-
-
-
-// ------------------------------------- TODO -----------------------------------------------
-
-  // date 8 days ago needs to be date 7 days ago at 1:01am in the morning to properly calulate days
-  // broken rn because last weeks matches get added to the current day's matches
-
-//
-
-
-
-
-
-
   const setMatchData = async () => {
     const matchesPerDay = []
 
-    const d = new Date()
-    const date8DaysAgo = d.setDate(d.getDate() - 8)
+    const today = new Date()
+    today.setHours(0)
+    today.setMinutes(0)
+    today.setSeconds(0)
+    const date6DaysAgo = today.setDate(today.getDate() - 6)
 
-    await firebase.firestore().collection('Battle Log').where('timestamp', '>=', date8DaysAgo).get().then(querySnapshot => {
+
+    await firebase.firestore().collection('Battle Log').where('timestamp', '>=', date6DaysAgo).get().then(querySnapshot => {
       for (let i = 6; i >= 0; i--) {
         // get day
         const today = new Date()
@@ -84,8 +78,8 @@ const MatchesLineChart = () => {
     setMatchesList(matchesPerDay)
   }
 
-  useEffect(async () => {
-    await setMatchData()
+  useEffect(() => {
+    setMatchData()
   }, [])
 
   const data = {
@@ -103,9 +97,6 @@ const MatchesLineChart = () => {
 
   return (
     <div>
-      <button onClick={() => { console.log(matchesList) }} >
-        See matches data
-      </button>
       <Line
         data={data}
         options={{
@@ -134,31 +125,75 @@ const MatchesLineChart = () => {
 
 const WinRatioBarChart = () => {
 
-  const [wins, setWins] = useState([])
-  const [losses, setLosses] = useState([])
+  const [winPercentagesList, setWinPercentagesList] = useState([])
+  const [lossPercentagesList, setLossPercentagesList] = useState([])
 
-  useEffect(() => {
-    const date = new Date();
-    const date7DaysAgo = date.setDate(date.getDate() - 7);
-    firebase.firestore().collection('Battle Log').where('timestamp', '>=', date7DaysAgo).orderBy('timestamp').get(doc => {
-      if (doc.data().winner === 'hvcminer')
-        wins++
-      else
-        losses++
+  const setWinsList = (winner, splinter, wins) => {
+    if (winner === 'hvcminer')
+      return
+    if (splinter === 'fire') {
+      wins[0]++
+    } else if (splinter === 'water') {
+      wins[1]++
+    } else if (splinter === 'earth') {
+      wins[2]++
+    } else if (splinter === 'life') {
+      wins[3]++
+    } else if (splinter === 'death') {
+      wins[4]++
+    } else if (splinter === 'dragon') {
+      wins[5]++
+    } else if (splinter === 'random') {
+      wins[6]++
+    } else if (splinter === 'best') {
+      wins[7]++
+    }
+  }
+
+  useEffect(async () => {
+    const today = new Date()
+    today.setHours(0)
+    today.setMinutes(0)
+    today.setSeconds(0)
+    const date6DaysAgo = today.setDate(today.getDate() - 6)
+    let matchesPlayed = 0
+    let wins = [0, 0, 0, 0, 0, 0, 0, 0]
+
+    await firebase.firestore().collection('Battle Log').where('timestamp', '>=', date6DaysAgo).get().then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        matchesPlayed++
+        setWinsList(doc.data().winner, doc.data().mode, wins)
+      })
     })
-  }, [wins, losses])
+
+    const winPercentage = (wins) => {
+      const winPercentPerSplinter = wins / matchesPlayed
+      return Math.round(winPercentPerSplinter * 100) / 100 // [0.32,0.55,etc] rounded to 2 decimals Math.round(num*100)/100
+    }
+
+    const lossPercentage = (winPercentage) => {
+      if (winPercentage !== 0)
+        return 1 - winPercentage
+      else
+        return 0
+    }
+
+
+    setWinPercentagesList(wins.map(i => winPercentage(i)))
+    setLossPercentagesList(wins.map(i => lossPercentage(winPercentage(i))))
+  }, [])
 
   const data = {
     labels: ['Fire', 'Water', 'Earth', 'Life', 'Death', 'Dragon', 'Random', 'Best'],
     datasets: [
       {
         label: 'win percentage',
-        data: [0.5, 0.2, 0.3, 0.6, 0.2, 0.1, 0.3, 0.05],
+        data: winPercentagesList,
         backgroundColor: '#3B82F6'
       },
       {
         label: 'loss percentage',
-        data: [0.5, 0.8, 0.7, 0.4, 0.8, 0.9, 0.7, 0.95],
+        data: lossPercentagesList,
         backgroundColor: '#EF4444'
       }
     ]
