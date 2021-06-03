@@ -1,3 +1,6 @@
+// really should render the data on the server side - get rid of that gitching
+
+
 import React, { useState, useEffect } from "react";
 import { Line, Bar } from "react-chartjs-2";
 import DashboardNavigation from "../components/dashboardNavigation";
@@ -17,16 +20,27 @@ function isOnSameDay(timestamp1, timestamp2) {
 
 
 const Statistics = () => {
+
+  const [dataDuration, setDataDuration] = useState('Last Week')
+
+  const setDuration = () => {
+    setDataDuration(prevState => {
+      return prevState === 'Last Week' ? 'Last Month' : 'Last Week'
+    })
+  }
+
   return (
     <DashboardNavigation>
       <div className="h-dashContent flex flex-col justify-center items-center">
-
+        <div className='flex justify-end py-4' style={{ width: 1000 }}>
+          <DropdownBtn duration={dataDuration} changeDuration={setDuration} />
+        </div>
         <div className='flex' >
           <div style={{ width: 500 }} >
-            <MatchesLineChart />
+            <MatchesLineChart duration={dataDuration} />
           </div>
           <div style={{ width: 500, height: 240 }} >
-            <WinRatioBarChart />
+            <WinRatioBarChart duration={dataDuration} />
           </div>
         </div>
       </div>
@@ -34,7 +48,38 @@ const Statistics = () => {
   );
 };
 
-const MatchesLineChart = () => {
+const DropdownBtn = (props) => {
+  const [showDropdown, setShowDropdown] = useState(false)
+
+  const dropdownBtnHandler = () => {
+    setShowDropdown(prevState => !prevState)
+  }
+
+  const dropdownOptionHandler = () => {
+    setShowDropdown(prevState => !prevState)
+    props.changeDuration()
+  }
+
+  return (
+    <div className='relative' >
+      <button onClick={dropdownBtnHandler} className='px-3 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 transition ease-in duration-100 focus:outline-none focus:bg-blue-700' >
+        {props.duration}
+        <FontAwesomeIcon className='ml-2' icon={faCaretDown} />
+      </button>
+      {
+        showDropdown &&
+        <div className='absolute w-40 mt-2 py-2 bg-white shadow-xl rounded' >
+          <div onClick={dropdownOptionHandler} className='p-2 cursor-pointer hover:bg-gray-50 hover:text-blue-600 transition ease-in duration-100'>
+            {props.duration === 'Last Week' ? 'Last Month' : 'Last Week'}
+          </div>
+        </div>
+      }
+    </div>
+  )
+}
+
+
+const MatchesLineChart = (props) => {
 
   const [matchesList, setMatchesList] = useState([])
 
@@ -123,10 +168,14 @@ const MatchesLineChart = () => {
   );
 };
 
-const WinRatioBarChart = () => {
+// SOLUTION : Have a loading state
 
-  const [winPercentagesList, setWinPercentagesList] = useState([])
-  const [lossPercentagesList, setLossPercentagesList] = useState([])
+const WinRatioBarChart = (props) => {
+  console.log('re render', props.duration)
+
+  const [winPercentagesList, setWinPercentagesList] = useState([2, 3, 3])
+  const [lossPercentagesList, setLossPercentagesList] = useState([23, 3, 3])
+  const [loading, setLoading] = useState(true)
 
   const setWinsList = (winner, splinter, wins) => {
     if (winner === 'hvcminer')
@@ -151,11 +200,13 @@ const WinRatioBarChart = () => {
   }
 
   useEffect(async () => {
+    setLoading(true)
     const today = new Date()
     today.setHours(0)
     today.setMinutes(0)
     today.setSeconds(0)
-    const date6DaysAgo = today.setDate(today.getDate() - 6)
+    const durationDays = props.duration === 'Last Week' ? 6 : 30
+    const date6DaysAgo = today.setDate(today.getDate() - durationDays)
     let matchesPlayed = 0
     let wins = [0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -181,8 +232,8 @@ const WinRatioBarChart = () => {
 
     setWinPercentagesList(wins.map(i => winPercentage(i)))
     setLossPercentagesList(wins.map(i => lossPercentage(winPercentage(i))))
-  }, [])
-
+    setLoading(false)
+  }, [props.duration])
   const data = {
     labels: ['Fire', 'Water', 'Earth', 'Life', 'Death', 'Dragon', 'Random', 'Best'],
     datasets: [
@@ -199,38 +250,43 @@ const WinRatioBarChart = () => {
     ]
   }
   return (
-    <Bar
-      data={data}
-      options={{
-        plugins: {
-          title: {
-            display: true,
-            text: 'Match Percentages',
-            padding: {
-              bottom: 30
-            }
-          },
-          legend: {
-            display: true,
-            position: 'bottom',
-            labels: {
-              pointStyle: 'rectRounded',
-              usePointStyle: true,
-            }
-          }
-        },
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            stacked: true,
-          },
-          y: {
-            stacked: true,
-          }
-        }
-      }}
-    />
-  );
+    <>
+      {
+        loading ? <div></div>
+          : <Bar
+            data={data}
+            options={{
+              plugins: {
+                title: {
+                  display: true,
+                  text: 'Match Percentages',
+                  padding: {
+                    bottom: 30
+                  }
+                },
+                legend: {
+                  display: true,
+                  position: 'bottom',
+                  labels: {
+                    pointStyle: 'rectRounded',
+                    usePointStyle: true,
+                  }
+                }
+              },
+              maintainAspectRatio: false,
+              scales: {
+                x: {
+                  stacked: true,
+                },
+                y: {
+                  stacked: true,
+                }
+              }
+            }}
+          />
+      }
+    </>
+  )
 };
 
 export default Statistics;
