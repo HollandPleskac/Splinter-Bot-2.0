@@ -9,14 +9,15 @@ import 'firebase/firestore'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 
-function isOnSameDay(timestamp1, timestamp2) {
-  const day1 = new Date(timestamp1).toString().split(' ')[0];
-  const day2 = new Date(timestamp2).toString().split(' ')[0];
-  if (day1 === day2)
-    return true;
-  else
-    return false;
-}
+const getLast7Days = () => {
+  let result = []
+  for (let i = 6; i >= 0; i--) {
+    let d = new Date()
+    d.setDate(d.getDate() - i)
+    result.push(d.toLocaleDateString("en-US", { weekday: "short" }))
+  }
+  return result
+};
 
 
 const Statistics = () => {
@@ -36,7 +37,7 @@ const Statistics = () => {
           <DropdownBtn duration={dataDuration} changeDuration={setDuration} />
         </div>
         <div className='flex' >
-          <div style={{ width: 500 }} >
+          <div style={{ width: 500, height: 240 }} >
             <MatchesLineChart duration={dataDuration} />
           </div>
           <div style={{ width: 500, height: 240 }} >
@@ -82,53 +83,78 @@ const DropdownBtn = (props) => {
 const MatchesLineChart = (props) => {
 
   const [matchesList, setMatchesList] = useState([])
+  const [loading, setLoading] = useState(true)
 
-  const getLast7Days = () => {
-    let result = [];
-    for (let i = 6; i >= 0; i--) {
-      let d = new Date();
-      d.setDate(d.getDate() - i);
-      result.push(d.toLocaleDateString("en-US", { weekday: "short" }));
+  function isOnSameDay(timestamp1, timestamp2) {
+    const day1 = new Date(timestamp1).toString().split(' ')[0];
+    const day2 = new Date(timestamp2).toString().split(' ')[0];
+    if (day1 === day2)
+      return true;
+    else
+      return false;
+  }
+
+  function isInSameWeek(iter, timestamp) {
+    // timestamp is timestamp from firestore
+    const today = new Date()
+    const pastDate = new Date().setDate(today.getDate() - iter)
+    const pastDateMinus7 = new Date().setDate(today.getDate() - iter - 7)
+
+    if (pastDateMinus7 <= timestamp && timestamp <= pastDate) {
+      return true
     }
-    return result;
-  };
+    else
+      return false
+  }
 
-  const setMatchData = async () => {
-    const matchesPerDay = []
+  // count matches that happen per day, count matches that happen per week
+  const getMatchData = async (duration) => {
+    const matchesPerDuration = []
 
     const today = new Date()
     today.setHours(0)
     today.setMinutes(0)
     today.setSeconds(0)
-    const date6DaysAgo = today.setDate(today.getDate() - 6)
+    const todayMinusDuration = today.setDate(today.getDate() - (props.duration === 'Last Week' ? 6 : 21))
 
 
-    await firebase.firestore().collection('Battle Log').where('timestamp', '>=', date6DaysAgo).get().then(querySnapshot => {
-      for (let i = 6; i >= 0; i--) {
-        // get day
-        const today = new Date()
-        const day = today.setDate(today.getDate() - i)
-        // get wins
+    await firebase.firestore().collection('Battle Log').where('timestamp', '>=', todayMinusDuration).get().then(querySnapshot => {
+      // count from 1 week ago or 1 month ago
+      let start = 6
+      let decrement = 1
+      if (duration === 'Last Month') {
+        start = 21
+        decrement = 7
+      }
+
+      for (let i = start; i >= 0; i -= decrement) {
+        const day = new Date().setDate(new Date().getDate() - i)
         let matches = 0
 
         querySnapshot.forEach(doc => {
-          if (isOnSameDay(day, doc.data().timestamp)) {
+          let checkDuration = isOnSameDay.bind(null, day, doc.data().timestamp)
+          if (duration === 'Last Month')
+            checkDuration = isInSameWeek.bind(null, i, doc.data().timestamp)
+
+          if (checkDuration()) {
             matches++
           }
         })
-        matchesPerDay.push(matches)
+        matchesPerDuration.push(matches)
       }
     })
 
-    setMatchesList(matchesPerDay)
+    setMatchesList(matchesPerDuration)
   }
 
-  useEffect(() => {
-    setMatchData()
-  }, [])
+  useEffect(async () => {
+    setLoading(true)
+    await getMatchData(props.duration)
+    setLoading(false)
+  }, [props.duration])
 
   const data = {
-    labels: getLast7Days(),
+    labels: props.duration === 'Last Week' ? getLast7Days() : ['Week 4', 'Week 3', 'Week 2', 'Week 1'],
     datasets: [
       {
         label: "Matches Played",
@@ -141,40 +167,40 @@ const MatchesLineChart = (props) => {
   };
 
   return (
-    <div>
-      <Line
-        data={data}
-        options={{
-          plugins: {
-            title: {
-              display: true,
-              text: "Matches Played",
-              padding: {
-                bottom: 30
-              }
-            },
-            legend: {
-              display: true,
-              position: "bottom",
-              labels: {
-                pointStyle: "rectRounded",
-                usePointStyle: true,
+    <>
+      {
+        loading
+          ? <div></div>
+          : <Line
+            data={data}
+            options={{
+              plugins: {
+                title: {
+                  display: true,
+                  text: "Matches Played",
+                  padding: {
+                    bottom: 30
+                  }
+                },
+                legend: {
+                  display: true,
+                  position: "bottom",
+                  labels: {
+                    pointStyle: "rectRounded",
+                    usePointStyle: true,
+                  },
+                },
               },
-            },
-          },
-        }}
-      />
-    </div>
+            }}
+          />
+      }
+    </>
   );
 };
 
-// SOLUTION : Have a loading state
-
 const WinRatioBarChart = (props) => {
-  console.log('re render', props.duration)
-
-  const [winPercentagesList, setWinPercentagesList] = useState([2, 3, 3])
-  const [lossPercentagesList, setLossPercentagesList] = useState([23, 3, 3])
+  const [winPercentagesList, setWinPercentagesList] = useState([])
+  const [lossPercentagesList, setLossPercentagesList] = useState([])
   const [loading, setLoading] = useState(true)
 
   const setWinsList = (winner, splinter, wins) => {
@@ -206,11 +232,11 @@ const WinRatioBarChart = (props) => {
     today.setMinutes(0)
     today.setSeconds(0)
     const durationDays = props.duration === 'Last Week' ? 6 : 30
-    const date6DaysAgo = today.setDate(today.getDate() - durationDays)
+    const dateInPast = today.setDate(today.getDate() - durationDays)
     let matchesPlayed = 0
     let wins = [0, 0, 0, 0, 0, 0, 0, 0]
 
-    await firebase.firestore().collection('Battle Log').where('timestamp', '>=', date6DaysAgo).get().then(querySnapshot => {
+    await firebase.firestore().collection('Battle Log').where('timestamp', '>=', dateInPast).get().then(querySnapshot => {
       querySnapshot.forEach(doc => {
         matchesPlayed++
         setWinsList(doc.data().winner, doc.data().mode, wins)
@@ -228,7 +254,6 @@ const WinRatioBarChart = (props) => {
       else
         return 0
     }
-
 
     setWinPercentagesList(wins.map(i => winPercentage(i)))
     setLossPercentagesList(wins.map(i => lossPercentage(winPercentage(i))))

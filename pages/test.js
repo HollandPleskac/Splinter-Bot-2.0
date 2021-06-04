@@ -1,104 +1,26 @@
-import React from 'react';
-import { Line, Bar } from 'react-chartjs-2';
+function isOnSameWeek(iter, timestamp) {
+  // timestamp is timestamp from firestore
 
-// Line Chart
+  const today = new Date()
 
-const data = {
-  labels: ['1', '2', '3', '4', '5', '6'],
-  datasets: [
-    {
-      label: 'Matches Played',
-      data: [12, 19, 3, 5, 2, 3],
-      fill: false,
-      backgroundColor: 'rgb(255, 99, 132)',
-      borderColor: 'rgba(255, 99, 132, 0.2)',
-    },
-  ],
-};
+  const pastDate = new Date().setDate(today.getDate() - iter)
+  const pastDateMinus7 = new Date().setDate(today.getDate() - iter - 7)
 
-const LineChart = () => (
-  <>
-    <div className='header'>
-      <h1 className='title'>Line Chart</h1>
-      <div className='links'>
-        <a
-          className='btn btn-gh'
-          href='https://github.com/reactchartjs/react-chartjs-2/blob/master/example/src/charts/Line.js'
-        >
-          Github Source
-        </a>
-      </div>
-    </div>
-    <div className='mb-40' style={{ width: '500px', height: '100px' }} >
-      <Line data={data} options={{
-        plugins: {
-          title: {
-            display: true,
-            text: 'Testing',
-
-          },
-          legend: {
-            display: true,
-            position: 'right',
-            labels: {
-              pointStyle: 'rectRounded',
-              usePointStyle: true
-            }
-          }
-        }
-      }} />
-    </div>
-    <div className='bg-gray-50' style={{ width: '500px', height: '220px' }}>
-      <BarChart />
-    </div>
-  </>
-);
-
-
-const BarChart = () => {
-  const data2 = {
-    labels: ['Fire', 'Water', 'Earth', 'Life'],
-
-    datasets: [
-      {
-        label: 'wins',
-        data: [0.5, 0.2, 0.3, 0.6],
-        backgroundColor: 'rgb(255, 99, 132)'
-      },
-      {
-        label: 'losses',
-        data: [0.5, 0.8, 0.7, 0.4],
-        backgroundColor: 'rgb(180, 140, 255)'
-      }
-    ]
+  if (pastDateMinus7 <= timestamp && timestamp <= pastDate) {
+    return true
   }
-  return (
-    <>
-      <Bar
-        pointStyle="star"
-        data={data2}
-        options={{
-          maintainAspectRatio: false,
-
-          scales: {
-            x:
-            {
-              stacked: true,
-            }
-            ,
-            y:
-            {
-              stacked: true,
-            }
-          }
-        }}
-      />
-    </>
-  )
+  else
+    return false
 }
 
+console.log('checking', new Date(1622141887100)) // May(5) 27
 
+for (let i = 14; i >= 0; i -= 7) {
+  let today = new Date()
+  console.log('past date', today)
 
-export default LineChart;
-
-// matches played and bar with win percentages (show numbers on bar too for accurate count)
+  const res = isOnSameWeek(i, 1622141887100)
+  console.log()
+  // console.log(past)
+  console.log(res)
+}
