@@ -1,4 +1,3 @@
-import puppeteer from 'puppeteer'
 import chromium from 'chrome-aws-lambda'
 import firebase from 'firebase/app'
 import 'firebase/firestore'

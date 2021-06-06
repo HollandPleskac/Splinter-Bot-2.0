@@ -8,7 +8,8 @@ import { logBattle } from './summoner/firestore'
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const battleResponse = await farm()
+    await setIsInMatch(true)
+    // const battleResponse = await farm()
     console.log(battleResponse)
     res.json({ result: 'success' })
   } else {
