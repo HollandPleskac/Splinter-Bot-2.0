@@ -7,7 +7,7 @@ import openSplinterlands from './utility/open-splinterlands'
 import { logBattle } from './summoner/firestore'
 
 export default async function handler(req, res) {
-  if (req.method === 'POST') {
+  if (req.method === 'POST' || req.method === 'post') {
     try {
       await setIsInMatch(true)
       // const battleResponse = await farm()
