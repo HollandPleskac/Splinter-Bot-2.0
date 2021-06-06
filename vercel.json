@@ -1,7 +1,0 @@
-{
-  "functions": {
-    "api/farm.js": {
-      "memory": 3008
-    }
-  }
-}
