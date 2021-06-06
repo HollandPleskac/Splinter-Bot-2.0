@@ -54,7 +54,7 @@ const HomeContent = () => {
   const serverHandler = async () => {
     let res = 'no response'
     try {
-      res = await axios.post('api/test2')
+      res = await axios.post('api/farm')
     } catch (e) {
       console.log('an err occurred,', e)
     }
