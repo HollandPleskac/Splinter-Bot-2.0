@@ -52,7 +52,7 @@ const LandingLink = (props) => {
 const HomeContent = () => {
 
   const serverHandler = async () => {
-    const res = await axios.get('api/test')
+    const res = await axios.get('api/farm')
     console.log(res)
   }
 
