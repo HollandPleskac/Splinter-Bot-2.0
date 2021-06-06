@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTachometerAlt, faEye, faSignal, faUserCircle, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import { faTachometerAlt, faEye, faSignal, faUserCircle, faSignOutAlt, faQuestion } from '@fortawesome/free-solid-svg-icons'
 import AuthContext from '../context/authContext'
 
 
@@ -59,18 +59,25 @@ const SidebarLink = (props) => {
 
 
 const Topbar = () => {
+  const ctx = useContext(AuthContext)
   const [isDropdownOpen, setDropdownOpen] = useState(false)
 
-  const dropDownHandler = () => {
+  const dropdownHandler = (params) => {
     setDropdownOpen((prevState) => !prevState)
   }
+
+
+  const signOutHandler = () => {
+    setDropdownOpen((prevState) => !prevState)
+    ctx.onLogout()
+  }
+
 
   return (
     <>
       <div className='flex flex-col items-end justify-center pr-8 w-full h-topbar z-10 shadow'>
         <div className='relative' >
-
-          <div tabIndex='0' onClick={dropDownHandler} className='group flex items-center cursor-pointer focus:outline-none' >
+          <div tabIndex='0' onClick={dropdownHandler} className='group flex items-center cursor-pointer focus:outline-none' >
             <p className='mr-4 text-sm text-gray-500' >Holland Pleskac</p>
             <img src="prof.jpg" alt="Prof Pic" width='42' height='42' className='rounded-full border-gray-300 border-2 group-hover:border-gray-400 group-focus:border-gray-400 transition ease-in duration-100' />
           </div>
@@ -79,16 +86,15 @@ const Topbar = () => {
 
           {
             isDropdownOpen &&
-            <div className='absolute right-0 flex flex-col w-48 py-2 mt-2 bg-white rounded-2xl shadow-xl' >
-              <button onClick={dropDownHandler} className='py-2 px-5 text-left text-gray-800 hover:bg-blue-600 hover:text-white focus:outline-none transition ease-in duration-100'>
-                Dark Mode
-            </button>
-              <button onClick={dropDownHandler} className='py-2 px-5 text-left text-gray-800 hover:bg-blue-600 hover:text-white focus:outline-none transition ease-in duration-100'>
-                Support
-            </button>
-              <button onClick={dropDownHandler} className='py-2 px-5 text-left text-gray-800 hover:bg-blue-600 hover:text-white focus:outline-none transition ease-in duration-100'>
-                Sign Out
-            </button>
+            <div className='absolute right-0 flex flex-col w-48 py-2 mt-2 bg-white rounded-xl shadow-xl' >
+              <button onClick={null} className='group flex items-center py-2 px-5 text-left hover:bg-blue-600 focus:outline-none transition ease-in duration-100'>
+                <FontAwesomeIcon icon={faQuestion} className='mb-px mr-2 text-gray-400 group-hover:text-white transition ease-in duration-100' />
+                <p className='text-gray-600 group-hover:text-white transition ease-in duration-100' >Support</p>
+              </button>
+              <button onClick={signOutHandler} className='group flex items-center py-2 px-5 text-left hover:bg-blue-600 focus:outline-none transition ease-in duration-100'>
+                <FontAwesomeIcon icon={faSignOutAlt} className='mb-px mr-2 text-gray-400 group-hover:text-white transition ease-in duration-100' />
+                <p className='text-gray-600 group-hover:text-white transition ease-in duration-100' >Sign Out</p>
+              </button>
             </div>
           }
         </div>
