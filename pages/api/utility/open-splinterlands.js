@@ -1,14 +1,14 @@
+import puppeteer from 'puppeteer'
 import chromium from 'chrome-aws-lambda'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 
-
+// heard this might work in production https://github.com/mehulmpt/nextjs-puppeteer-aws-s3-screenshot-service/blob/main/api/get-screenshot-image.js#L11
 async function getBrowserInstance() {
   const executablePath = await chromium.executablePath
 
   if (!executablePath) {
     // running locally
-    const puppeteer = require('puppeteer')
     return puppeteer.launch({
       args: chromium.args,
       headless: true,
@@ -37,7 +37,12 @@ async function openSplinterlands() {
   const username = await firebase.firestore().collection('Users').doc('dpleskac@gmail.com').get().then(doc => doc.data().email)
   const password = await firebase.firestore().collection('Users').doc('dpleskac@gmail.com').get().then(doc => doc.data().password)
 
-  const browser = await getBrowserInstance()
+  const browser = await puppeteer.launch({
+    headless: false,
+    // args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    // executablePath: '/usr/bin/chromium-browser'
+  });
+  // args and executablePath are required to run on linux
   const page = await browser.newPage();
 
   await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36');
