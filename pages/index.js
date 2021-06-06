@@ -67,7 +67,6 @@ const HomeContent = () => {
       <h1 className='text-7xl text-blue-600 mb-9 '>Splinter Bot</h1>
       <p className='text-lg text-center text-gray-800 mb-9' >The smartest way to farm<br />dark energy crystals.</p>
       <div>
-        <button onClick={serverHandler} className='mr-2' >Test out the server</button>
         <button className=' border-2 border-blue-600 text-blue-600 hover:bg-blue-700 hover:text-white px-8 py-3 rounded-lg transition ease-in duration-100 focus:outline-none mr-4' >Learn More</button>
         <button className='border-2 border-blue-600 bg-blue-600 text-white hover:bg-blue-700 px-8 py-3 rounded-lg transition ease-in duration-100 focus:outline-none' >Get Started</button>
       </div>
