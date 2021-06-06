@@ -4,17 +4,41 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 
 
+async function getBrowserInstance() {
+  const executablePath = await chromium.executablePath
+
+  if (!executablePath) {
+    // running locally
+    const puppeteer = require('puppeteer')
+    return puppeteer.launch({
+      args: chromium.args,
+      headless: true,
+      defaultViewport: {
+        width: 1280,
+        height: 720
+      },
+      ignoreHTTPSErrors: true
+    })
+  }
+
+  return chromium.puppeteer.launch({
+    args: chromium.args,
+    defaultViewport: {
+      width: 1280,
+      height: 720
+    },
+    executablePath,
+    headless: chromium.headless,
+    ignoreHTTPSErrors: true
+  })
+}
+
 
 async function openSplinterlands() {
   const username = await firebase.firestore().collection('Users').doc('dpleskac@gmail.com').get().then(doc => doc.data().email)
   const password = await firebase.firestore().collection('Users').doc('dpleskac@gmail.com').get().then(doc => doc.data().password)
 
-  const browser = await puppeteer.launch({
-    headless: false,
-    // args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    // executablePath: '/usr/bin/chromium-browser'
-  });
-  // args and executablePath are required to run on linux
+  const browser = await getBrowserInstance()
   const page = await browser.newPage();
 
   await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36');
@@ -62,3 +86,10 @@ async function openSplinterlands() {
 
 
 export default openSplinterlands
+
+// const browser = await puppeteer.launch({
+//   headless: false,
+//   // args: ['--no-sandbox', '--disable-setuid-sandbox'],
+//   // executablePath: '/usr/bin/chromium-browser'
+// });
+//   // args and executablePath are required to run on linux
