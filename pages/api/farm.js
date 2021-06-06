@@ -23,7 +23,7 @@ async function setIsInMatch(matchStatus) {
 }
 
 export default async function handler(req, res) {
-  if (req.method === 'POST' || req.method === 'post') {
+  if (req.method === 'POST') {
     try {
       await setIsInMatch(true)
       const battleResponse = await farm()
@@ -37,9 +37,7 @@ export default async function handler(req, res) {
   }
 }
 
-
 async function farm() {
-
   await setIsInMatch(true)
   let browser, page
   let battleResponse;
@@ -58,7 +56,6 @@ async function farm() {
     }
     console.log(e)
   }
-  console.log('after opening splinter lands')
 
   // BATTLE AS LONG AS DESIRED
   while (await getShouldBattle() === true) {
@@ -96,7 +93,6 @@ async function farm() {
         await setShouldBattle(false)
       }
     }
-
   }
 
   // EXIT THE BROWSER
@@ -108,5 +104,4 @@ async function farm() {
 
   await setIsInMatch(false)
   return battleResponse
-
 }
