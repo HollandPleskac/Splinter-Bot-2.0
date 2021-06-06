@@ -1,6 +1,9 @@
-const puppeteer = require('puppeteer');
+import puppeteer from 'puppeteer'
+import chromium from 'chrome-aws-lambda'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
+
+
 
 async function openSplinterlands() {
   const username = await firebase.firestore().collection('Users').doc('dpleskac@gmail.com').get().then(doc => doc.data().email)

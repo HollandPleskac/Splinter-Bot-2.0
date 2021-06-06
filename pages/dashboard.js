@@ -40,6 +40,8 @@ const PageContent = () => {
           console.log(res)
         } catch (e) {
           console.log('err occurred while trying to farm', e)
+          console.log(e.name)
+          console.log(e.message)
         }
       }
 
