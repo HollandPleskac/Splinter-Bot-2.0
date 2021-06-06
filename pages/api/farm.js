@@ -42,6 +42,7 @@ async function farm() {
   let restartFailedCount = 0;
 
   // OPEN SPLINTER LANDS
+  console.log('opening splinter lands')
   try {
     const { browser: returnedBrowser, page: returnedPage } = await openSplinterlands()
     browser = returnedBrowser
@@ -53,6 +54,7 @@ async function farm() {
     }
     console.log(e)
   }
+  console.log('after opening splinter lands')
 
   // BATTLE AS LONG AS DESIRED
   while (await getShouldBattle() === true) {
