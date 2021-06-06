@@ -30,6 +30,7 @@ import firestore from '../firebase-admin'
 //   })
 // }
 
+
 async function openSplinterlands() {
   const username = await firestore.collection('Users').doc('dpleskac@gmail.com').get().then(doc => doc.data().email)
   const password = await firestore.collection('Users').doc('dpleskac@gmail.com').get().then(doc => doc.data().password)
