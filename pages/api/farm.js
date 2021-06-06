@@ -8,13 +8,14 @@ import { logBattle } from './summoner/firestore'
 
 export default async function handler(req, res) {
   if (req.method === 'POST' || req.method === 'post') {
-    try {
-      await setIsInMatch(true)
-      // const battleResponse = await farm()
-      // console.log(battleResponse)
-    } catch (e) {
-      console.log('error farming', e)
-    }
+    // try {
+    //   await setIsInMatch(true)
+    //   // const battleResponse = await farm()
+    //   // console.log(battleResponse)
+    // } catch (e) {
+    //   console.log('error farming', e)
+    // }
+    await setIsInMatch(true)
     res.json({ result: 'success' })
   } else {
     console.log('request not met')
