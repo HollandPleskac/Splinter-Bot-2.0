@@ -8,9 +8,9 @@ initFirebase()
 function MyApp({ Component, pageProps }) {
   return (
     <AuthContextProvider>
-      <ProtectRoute>
+      {/* <ProtectRoute> */}
         <Component {...pageProps} />
-      </ProtectRoute>
+      {/* </ProtectRoute> */}
     </AuthContextProvider>
   )
 }

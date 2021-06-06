@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { useRouter } from 'next/router'
 import AuthContext from '../context/authContext'
-import HomePage from '../pages/index'
 
 const ProtectRoute = (props) => {
   const router = useRouter()
