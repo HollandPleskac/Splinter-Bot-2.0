@@ -88,7 +88,7 @@ async function farm() {
 
       //  CLOSE IF RESTARTING TOO MANY TIMES
       restartFailedCount++;
-      if (restartFailedCount >= 20) {
+      if (restartFailedCount >= 2) {
         battleResponse = `failed too many times - manual restart required + ${err}`;
         await setShouldBattle(false)
       }
