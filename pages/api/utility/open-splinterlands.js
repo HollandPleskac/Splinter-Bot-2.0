@@ -35,12 +35,19 @@ async function openSplinterlands() {
   const username = await firestore.collection('Users').doc('dpleskac@gmail.com').get().then(doc => doc.data().email)
   const password = await firestore.collection('Users').doc('dpleskac@gmail.com').get().then(doc => doc.data().password)
 
-  const browser = await puppeteer.launch({
-    headless: false,
-    // args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    // executablePath: '/usr/bin/chromium-browser'
-  });
-  // args and executablePath are required to run on linux
+  let browser
+  try {
+    browser = await puppeteer.launch({
+      headless: false,
+      // args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      // executablePath: '/usr/bin/chromium-browser'
+    });
+    // args and executablePath are required to run on linux
+  } catch (e) {
+    console.log('broswer unable to be launched', e)
+    return
+  }
+
   const page = await browser.newPage();
 
   await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36');
