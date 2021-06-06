@@ -1,27 +1,27 @@
-import firebase from 'firebase/app'
-import 'firebase/firestore'
+// import firebase from 'firebase/app'
+// import 'firebase/firestore'
 
 // import battle from './utility/battle'
 // import performRestart from './utility/perform-restart'
 // import openSplinterlands from './utility/open-splinterlands'
 // import { logBattle } from './summoner/firestore'
 
-async function getShouldBattle() {
-  const doc = await firebase.firestore().collection('Users').doc('dpleskac@gmail.com').get()
-  return doc.data().shouldFarm
-}
+// async function getShouldBattle() {
+//   const doc = await firebase.firestore().collection('Users').doc('dpleskac@gmail.com').get()
+//   return doc.data().shouldFarm
+// }
 
-async function setShouldBattle(newStatus) {
-  await firebase.firestore().collection('Users').doc('dpleskac@gmail.com').update({
-    shouldFarm: newStatus
-  })
-}
+// async function setShouldBattle(newStatus) {
+//   await firebase.firestore().collection('Users').doc('dpleskac@gmail.com').update({
+//     shouldFarm: newStatus
+//   })
+// }
 
-async function setIsInMatch(matchStatus) {
-  await firebase.firestore().collection('Users').doc('dpleskac@gmail.com').update({
-    isInMatch: matchStatus
-  })
-}
+// async function setIsInMatch(matchStatus) {
+//   await firebase.firestore().collection('Users').doc('dpleskac@gmail.com').update({
+//     isInMatch: matchStatus
+//   })
+// }
 
 export default async function handler(req, res) {
   if (req.method === 'POST' || req.method === 'post') {
@@ -33,12 +33,12 @@ export default async function handler(req, res) {
     //   console.log('error farming', e)
     // }
 
-    await setIsInMatch(true)
+    // await setIsInMatch(true)
     res.json({ result: 'success' })
   } else {
     console.log('request not met')
   }
-  await setIsInMatch(true)
+  // await setIsInMatch(true)
   res.json({ result: 'failed??' })
 }
 
