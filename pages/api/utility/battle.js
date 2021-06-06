@@ -12,7 +12,7 @@ async function battle(page, splinterChoice) {
       await clickRumbleButton(page);
     }
   }
-  
+
 
   async function clickCloseBattleButton(page) {
     try {
