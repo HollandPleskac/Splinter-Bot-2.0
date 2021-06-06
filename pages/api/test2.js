@@ -34,7 +34,7 @@ export default async function handler(req, res) {
     // }
 
     // await setIsInMatch(true)
-    res.json({ result: 'success' })
+    return res.json({ result: 'success' })
   } else {
     console.log('request not met')
   }
