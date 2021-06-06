@@ -1,9 +1,8 @@
-import firebase from 'firebase/app'
-import 'firebase/firestore'
+import firestore from '../firebase-admin'
 
 async function logBattle(battleResults) {
   console.log('logging the battle');
-  const res = await firebase.firestore().collection('Battle Log').add(battleResults);
+  const res = await firestore.collection('Battle Log').add(battleResults);
   console.log(res.id);
 }
 
@@ -22,15 +21,15 @@ async function getSplinterFromConversionRates(opponentSplinter, availiableSplint
   let snapshot;
   if (opponentSplinter !== null) {
     // best against a specific splinter
-    snapshot = await firebase.firestore().collection("Battle Log").where("opponentSplinter", "==", opponentSplinter).where('rule', '==', battleRule).where('hvcminerSplinter', 'in', availiableSplinters).get();
+    snapshot = await firestore.collection("Battle Log").where("opponentSplinter", "==", opponentSplinter).where('rule', '==', battleRule).where('hvcminerSplinter', 'in', availiableSplinters).get();
     console.log('first snap', snapshot.size);
     if (snapshot.size === 0) {
-      snapshot = await firebase.firestore().collection("Battle Log").where("opponentSplinter", "==", opponentSplinter).where('hvcminerSplinter', 'in', availiableSplinters).get();
+      snapshot = await firestore.collection("Battle Log").where("opponentSplinter", "==", opponentSplinter).where('hvcminerSplinter', 'in', availiableSplinters).get();
       console.log('second snap', snapshot.size);
     }
   } else {
     // best aginst all splinters
-    snapshot = await firebase.firestore().collection("Battle Log").get();
+    snapshot = await firestore.collection("Battle Log").get();
     console.log('third snap', snapshot.size);
   }
 

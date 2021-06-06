@@ -34,15 +34,7 @@ const PageContent = () => {
       // If not in match and start --> battle
       const newUserDoc = await firebase.firestore().collection('Users').doc('dpleskac@gmail.com').get()
       if (!newUserDoc.data().isInMatch && newUserDoc.data().shouldFarm) {
-        console.log('trying to farm')
-        try {
-          const res = await axios.post('/api/farm')
-          console.log(res)
-        } catch (e) {
-          console.log('err occurred while trying to farm', e)
-          console.log(e.name)
-          console.log(e.message)
-        }
+        await axios.post('/api/farm')
       }
 
     } catch (e) {

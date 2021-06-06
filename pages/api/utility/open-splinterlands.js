@@ -1,7 +1,6 @@
 import puppeteer from 'puppeteer'
 import chromium from 'chrome-aws-lambda'
-import firebase from 'firebase/app'
-import 'firebase/firestore'
+import firestore from '../firebase-admin'
 
 // heard this might work in production https://github.com/mehulmpt/nextjs-puppeteer-aws-s3-screenshot-service/blob/main/api/get-screenshot-image.js#L11
 async function getBrowserInstance() {
@@ -34,8 +33,8 @@ async function getBrowserInstance() {
 
 
 async function openSplinterlands() {
-  const username = await firebase.firestore().collection('Users').doc('dpleskac@gmail.com').get().then(doc => doc.data().email)
-  const password = await firebase.firestore().collection('Users').doc('dpleskac@gmail.com').get().then(doc => doc.data().password)
+  const username = await firestore.collection('Users').doc('dpleskac@gmail.com').get().then(doc => doc.data().email)
+  const password = await firestore.collection('Users').doc('dpleskac@gmail.com').get().then(doc => doc.data().password)
 
   const browser = await puppeteer.launch({
     headless: false,
