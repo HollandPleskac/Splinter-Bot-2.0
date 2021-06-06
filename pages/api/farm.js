@@ -51,6 +51,7 @@ async function farm() {
       await setIsInMatch(false)
       await setShouldBattle(false)
     }
+    console.log(e)
   }
 
   // BATTLE AS LONG AS DESIRED
