@@ -28,7 +28,7 @@ async function setShouldBattle(newStatus) {
   })
 }
 
-const setIsInMatch = async (matchStatus) => {
+async function setIsInMatch(matchStatus) {
   await firebase.firestore().collection('Users').doc('dpleskac@gmail.com').update({
     isInMatch: matchStatus
   })
