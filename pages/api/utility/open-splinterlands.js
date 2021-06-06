@@ -1,36 +1,34 @@
 import puppeteer from 'puppeteer'
-import chromium from 'chrome-aws-lambda'
 import firestore from '../firebase-admin'
 
 // heard this might work in production https://github.com/mehulmpt/nextjs-puppeteer-aws-s3-screenshot-service/blob/main/api/get-screenshot-image.js#L11
-async function getBrowserInstance() {
-  const executablePath = await chromium.executablePath
+// async function getBrowserInstance() {
+//   const executablePath = await chromium.executablePath
 
-  if (!executablePath) {
-    // running locally
-    return puppeteer.launch({
-      args: chromium.args,
-      headless: true,
-      defaultViewport: {
-        width: 1280,
-        height: 720
-      },
-      ignoreHTTPSErrors: true
-    })
-  }
+//   if (!executablePath) {
+//     // running locally
+//     return puppeteer.launch({
+//       args: chromium.args,
+//       headless: true,
+//       defaultViewport: {
+//         width: 1280,
+//         height: 720
+//       },
+//       ignoreHTTPSErrors: true
+//     })
+//   }
 
-  return chromium.puppeteer.launch({
-    args: chromium.args,
-    defaultViewport: {
-      width: 1280,
-      height: 720
-    },
-    executablePath,
-    headless: chromium.headless,
-    ignoreHTTPSErrors: true
-  })
-}
-
+//   return chromium.puppeteer.launch({
+//     args: chromium.args,
+//     defaultViewport: {
+//       width: 1280,
+//       height: 720
+//     },
+//     executablePath,
+//     headless: chromium.headless,
+//     ignoreHTTPSErrors: true
+//   })
+// }
 
 async function openSplinterlands() {
   const username = await firestore.collection('Users').doc('dpleskac@gmail.com').get().then(doc => doc.data().email)
