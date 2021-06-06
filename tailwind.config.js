@@ -16,7 +16,7 @@ module.exports = {
     },
     extend: {
       height: {
-        topbar: '85px',
+        topbar: '70px',
         dashContent: 'calc(100vh - 85px)'
       },
       backgroundColor: {

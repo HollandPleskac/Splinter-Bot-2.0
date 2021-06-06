@@ -5,7 +5,7 @@ import 'firebase/firestore'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlayCircle, faPauseCircle } from '@fortawesome/free-solid-svg-icons'
-import DashboardNavigation from '../components/dashboardNavigation'
+import MainNavigation from '../components/mainNavigation'
 import AuthContext from '../context/authContext'
 
 const dashboard = () => {
@@ -13,9 +13,9 @@ const dashboard = () => {
   console.log(ctx.isLoggedIn)
 
   return (
-    <DashboardNavigation>
+    <MainNavigation>
       <PageContent />
-    </DashboardNavigation>
+    </MainNavigation>
   )
 }
 

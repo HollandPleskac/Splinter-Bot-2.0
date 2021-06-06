@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import DashboardNavigation from '../components/dashboardNavigation'
+import MainNavigation from '../components/mainNavigation'
 
 import firebase from 'firebase/app'
 import 'firebase/firestore'
-import { render } from 'react-dom'
 
 const LiveView = (props) => {
   const [battlesSnapshot, setBattlesSnapshot] = useState(null)
@@ -35,7 +34,7 @@ const LiveView = (props) => {
     renderedBattles = battlesSnapshot
 
   return (
-    <DashboardNavigation>
+    <MainNavigation>
       <div className='flex flex-grow justify-center items-center'>
         {
           <div className='p-6 shadow-lg rounded overflow-scroll' style={{ height: '500px' }} >
@@ -47,7 +46,7 @@ const LiveView = (props) => {
           </div>
         }
       </div>
-    </DashboardNavigation >
+    </MainNavigation >
   )
 }
 

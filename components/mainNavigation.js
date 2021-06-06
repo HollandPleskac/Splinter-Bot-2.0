@@ -1,5 +1,11 @@
 import React, { useState, useContext } from 'react'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTachometerAlt, faEye, faSignal, faUserCircle, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import AuthContext from '../context/authContext'
+
 
 const mainNavigation = (props) => {
   return (
@@ -15,21 +21,41 @@ const mainNavigation = (props) => {
 
 const Sidebar = () => {
   return (
-    <div className='flex flex-col bg-blue-700 px-5 h-screen' style={{ width: '300px' }} >
+    <div className='flex flex-col bg-blue-600 px-5 h-screen' style={{ width: '300px' }} >
       <div>
-        <div className='h-topbar flex items-center justify-center'>
-          <img src="logo-white.png" alt="Logo" width='42' className='mr-2' />
-          <h1 className='text-blue-50 text-xl' >Splinter Bot</h1>
+        <div className='h-topbar flex items-center'>
+          <img src="logo-white.png" alt="Logo" width='35' className='ml-2 mr-2' />
+          <h1 className='text-white text-md font-bold' >SPLINTER BOT</h1>
         </div>
-        <hr />
+        <hr className='border-white border-opacity-20 mb-2' />
+        <SidebarLink name='Dashboard' icon={faTachometerAlt} href='/dashboard' />
+        <hr className='border-white border-opacity-20 mt-2' />
+        <p className='mt-4 ml-3 text-xs text-white text-opacity-40 font-semibold' >INTERFACE</p>
+        <SidebarLink name='Live View' icon={faEye} href='/live-view' />
+        <SidebarLink name='Statistics' icon={faSignal} href='/statistics' />
+        <hr className='border-white border-opacity-20 mt-2' />
+        <p className='mt-4 ml-3 text-xs text-white text-opacity-40 font-semibold' >ACCOUNT</p>
+        <SidebarLink name='Account' icon={faUserCircle} href='/account' />
       </div>
     </div>
   )
 }
 
-// Sidebar Link
+const SidebarLink = (props) => {
+  const router = useRouter()
+  const activeBgClasses = router.pathname === props.href && 'bg-white bg-opacity-20'
+  const activeTextClasses = router.pathname === props.href ? 'text-white' : 'text-white text-opacity-70 group-hover:text-white'
 
-// 
+  return (
+    <Link href={props.href}>
+      <div className={'group flex items-center px-4 py-2 my-1 cursor-pointer rounded ' + activeBgClasses} >
+        <FontAwesomeIcon icon={props.icon} className={' transition ease-in duration-50 ' + activeTextClasses} />
+        <p className={'ml-4 mt-px transition ease-in duration-50 ' + activeTextClasses} >{props.name}</p>
+      </div>
+    </Link>
+  )
+}
+
 
 
 const Topbar = () => {
@@ -46,7 +72,7 @@ const Topbar = () => {
 
           <div tabIndex='0' onClick={dropDownHandler} className='group flex items-center cursor-pointer focus:outline-none' >
             <p className='mr-4 text-sm text-gray-500' >Holland Pleskac</p>
-            <img src="prof.jpg" alt="Prof Pic" width='45' height='45' className='rounded-full border-gray-300 border-2 group-hover:border-gray-400 group-focus:border-gray-400 transition ease-in duration-100' />
+            <img src="prof.jpg" alt="Prof Pic" width='42' height='42' className='rounded-full border-gray-300 border-2 group-hover:border-gray-400 group-focus:border-gray-400 transition ease-in duration-100' />
           </div>
 
           {isDropdownOpen && <div onClick={setDropdownOpen.bind(null, false)} className='fixed inset-0' ></div>}

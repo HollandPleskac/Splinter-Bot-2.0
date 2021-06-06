@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Line, Bar } from "react-chartjs-2";
-import DashboardNavigation from "../components/dashboardNavigation";
+import MainNavigation from '../components/mainNavigation'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -29,7 +29,7 @@ const Statistics = () => {
   }
 
   return (
-    <DashboardNavigation>
+    <MainNavigation>
       <div className="h-dashContent flex flex-col justify-center items-center">
         <div className='flex justify-end py-4' style={{ width: 1000 }}>
           <DropdownBtn duration={dataDuration} changeDuration={setDuration} />
@@ -43,7 +43,7 @@ const Statistics = () => {
           </div>
         </div>
       </div>
-    </DashboardNavigation>
+    </MainNavigation>
   );
 };
 

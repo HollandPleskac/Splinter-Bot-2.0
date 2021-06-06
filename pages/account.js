@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import DashboardNavigation from '../components/dashboardNavigation'
+import MainNavigation from '../components/mainNavigation'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 
@@ -8,9 +8,9 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 const Account = () => {
   return (
-    <DashboardNavigation>
+    <MainNavigation>
       <PageContent />
-    </DashboardNavigation>
+    </MainNavigation>
   )
 }
 
