@@ -83,7 +83,7 @@ async function farm() {
       try {
         await performRestart(page);
       } catch (e) {
-        console.log('failed restarting', e.message)
+        // console.log('failed restarting', e.message)
       }
 
       //  CLOSE IF RESTARTING TOO MANY TIMES
