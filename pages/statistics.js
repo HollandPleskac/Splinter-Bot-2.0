@@ -1,6 +1,3 @@
-// really should render the data on the server side - get rid of that gitching
-
-
 import React, { useState, useEffect } from "react";
 import { Line, Bar } from "react-chartjs-2";
 import DashboardNavigation from "../components/dashboardNavigation";
@@ -8,6 +5,7 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import PuffLoader from 'react-spinners/PuffLoader'
 
 const getLast7Days = () => {
   let result = []
@@ -150,6 +148,7 @@ const MatchesLineChart = (props) => {
   useEffect(async () => {
     setLoading(true)
     await getMatchData(props.duration)
+    await new Promise(r => setTimeout(r, 200));
     setLoading(false)
   }, [props.duration])
 
@@ -170,7 +169,7 @@ const MatchesLineChart = (props) => {
     <>
       {
         loading
-          ? <div></div>
+          ? <div className='flex justify-center items-center' style={{ height: 240 }}> <PuffLoader color='#2563EB' /> </div>
           : <Line
             data={data}
             options={{
@@ -257,6 +256,7 @@ const WinRatioBarChart = (props) => {
 
     setWinPercentagesList(wins.map(i => winPercentage(i)))
     setLossPercentagesList(wins.map(i => lossPercentage(winPercentage(i))))
+    await new Promise(r => setTimeout(r, 200));
     setLoading(false)
   }, [props.duration])
   const data = {
@@ -277,7 +277,7 @@ const WinRatioBarChart = (props) => {
   return (
     <>
       {
-        loading ? <div></div>
+        loading ? <div className='flex justify-center items-center' style={{ height: 240 }}> <PuffLoader color='#2563EB' /> </div>
           : <Bar
             data={data}
             options={{
@@ -313,5 +313,6 @@ const WinRatioBarChart = (props) => {
     </>
   )
 };
+
 
 export default Statistics;

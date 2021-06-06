@@ -101,8 +101,6 @@ const CardUsed = (props) => {
   )
 }
 
-
-
 export async function getStaticProps() {
   console.log('get static props')
 
@@ -127,7 +125,6 @@ export async function getStaticProps() {
       battles: await getBattles()
     }
   }
-
 }
 
 export default LiveView
