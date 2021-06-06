@@ -70,7 +70,7 @@ async function farm() {
       battleResponse = 'stopped battling - success';
 
     } catch (err) {
-      console.log(`error battling ${err.message}, failed count ${restartFailedCount}`)
+      // console.log(`error battling ${err.message}, failed count ${restartFailedCount}`)
 
       // HANDLE BROSWER DISCONNECT ERR
       if (err.message === 'Protocol error (Runtime.callFunctionOn): Session closed. Most likely the page has been closed.' || err.message === 'Protocol error (Runtime.callFunctionOn): Target closed.') {
