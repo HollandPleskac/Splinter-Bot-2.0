@@ -3,15 +3,15 @@ import DashboardNavigation from '../components/dashboardNavigation'
 
 import firebase from 'firebase/app'
 import 'firebase/firestore'
+import { render } from 'react-dom'
 
-const LiveView = () => {
-  const [battles, setBattles] = useState([])
-  const [loading, setLoading] = useState(true)
+const LiveView = (props) => {
+  const [battlesSnapshot, setBattlesSnapshot] = useState(null)
 
   useEffect(async () => {
+    // get realtime battles
     const unsubscribe = firebase.firestore().collection('Battle Log').limit(15).orderBy('timestamp', 'desc').onSnapshot(querySnapshot => {
-      setLoading(true)
-      let battleList = []
+      const battleList = []
       querySnapshot.forEach(doc => {
         battleList.push({
           id: doc.id,
@@ -21,27 +21,30 @@ const LiveView = () => {
           opponentTeam: doc.data().opponentTeam,
         })
       })
-      setBattles(battleList)
-      setLoading(false)
+      setBattlesSnapshot(battleList)
     })
     return () => {
       unsubscribe()
     }
   }, [])
 
+  let renderedBattles
+  if (!battlesSnapshot)
+    renderedBattles = props.battles
+  else
+    renderedBattles = battlesSnapshot
+
   return (
     <DashboardNavigation>
       <div className='flex flex-grow justify-center items-center'>
         {
-          loading
-            ? <div></div>
-            : <div className='p-6 shadow-lg rounded overflow-scroll' style={{ height: '500px' }} >
-              {
-                battles.map(battle => {
-                  return <Battle key={battle.id} battleObj={battle} />
-                })
-              }
-            </div>
+          <div className='p-6 shadow-lg rounded overflow-scroll' style={{ height: '500px' }} >
+            {
+              renderedBattles.map(battle => {
+                return <Battle key={battle.id} battleObj={battle} />
+              })
+            }
+          </div>
         }
       </div>
     </DashboardNavigation >
@@ -68,14 +71,13 @@ const PlayerAndCards = (props) => {
       <div className='flex mt-2' >
         {
           props.cards.map(card => {
-            return <CardUsed key={card.cardName} imgUrl={card.cardUrl} />
+            return <CardUsed key={card.cardName || Math.random()} imgUrl={card.cardUrl} />
           })
         }
       </div>
     </div>
   )
 }
-
 
 const CardUsed = (props) => {
 
@@ -100,5 +102,32 @@ const CardUsed = (props) => {
 }
 
 
+
+export async function getStaticProps() {
+  console.log('get static props')
+
+  async function getBattles() {
+    const battleList = []
+    await firebase.firestore().collection('Battle Log').limit(15).orderBy('timestamp', 'desc').get().then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        battleList.push({
+          id: doc.id,
+          opponent: doc.data().opponent,
+          winner: doc.data().winner,
+          hvcminerTeam: doc.data().hvcminerTeam,
+          opponentTeam: doc.data().opponentTeam,
+        })
+      })
+    })
+    return battleList
+  }
+
+  return {
+    props: {
+      battles: await getBattles()
+    }
+  }
+
+}
 
 export default LiveView
