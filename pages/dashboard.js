@@ -36,7 +36,7 @@ const PageContent = () => {
       if (!newUserDoc.data().isInMatch && newUserDoc.data().shouldFarm) {
         console.log('trying to farm')
         try {
-          const res = await axios.post('https://splinter-bot-2.vercel.app/api/farm')
+          const res = await axios.post('/api/farm')
           console.log(res)
         } catch (e) {
           console.log('err occurred while trying to farm', e)
