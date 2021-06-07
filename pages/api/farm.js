@@ -24,13 +24,9 @@ async function setIsInMatch(matchStatus) {
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    try {
-      await setIsInMatch(true)
-      const battleResponse = await farm()
-      console.log(battleResponse)
-    } catch (e) {
-      console.log('error farming', e)
-    }
+    await setIsInMatch(true)
+    const battleResponse = await farm()
+    console.log(battleResponse)
     res.json({ result: 'success' })
   } else {
     console.log('request not met')
@@ -70,7 +66,7 @@ async function farm() {
       battleResponse = 'stopped battling - success';
 
     } catch (err) {
-      // console.log(`error battling ${err.message}, failed count ${restartFailedCount}`)
+      console.log(`error battling ${err.message}, failed count ${restartFailedCount}`)
 
       // HANDLE BROSWER DISCONNECT ERR
       if (err.message === 'Protocol error (Runtime.callFunctionOn): Session closed. Most likely the page has been closed.' || err.message === 'Protocol error (Runtime.callFunctionOn): Target closed.') {
@@ -83,12 +79,12 @@ async function farm() {
       try {
         await performRestart(page);
       } catch (e) {
-        // console.log('failed restarting', e.message)
+        console.log('failed restarting', e.message)
       }
 
       //  CLOSE IF RESTARTING TOO MANY TIMES
       restartFailedCount++;
-      if (restartFailedCount >= 2) {
+      if (restartFailedCount >= 10) {
         battleResponse = `failed too many times - manual restart required + ${err}`;
         await setShouldBattle(false)
       }

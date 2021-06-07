@@ -118,17 +118,25 @@ async function pickCards(page, summonerMana) {
     }
 
     function getTank(cards, availiableMana) {
-      let highestManaCard = cards[0];
+      // Highest Mana Tank
+      // let highestManaCard = cards[0];
+      // for (let i = 0; i < cards.length; i++) {
+      //   const card = cards[i];
+      //   if (card.mana > highestManaCard.mana && card.mana <= availiableMana && card.splinter !== 'neutral' && card.attackType !== 'ranged') {
+      //     highestManaCard = card;
+      //   }
+      // }
+      // return highestManaCard;
 
-
-      for (let i = 0; i < cards.length; i++) {
-        const card = cards[i];
-        if (card.mana > highestManaCard.mana && card.mana <= availiableMana && card.splinter !== 'neutral' && card.attackType !== 'ranged') {
-          highestManaCard = card;
+      // Random Tank
+      let availiableTanks = cards.filter(card => {
+        if (card.mana >= 6 && card.mana <= availiableMana && card.attackType !== 'magic' && card.attackType !== 'ranged' && !card.abilities.includes('Reach')) {
+          return card
         }
-      }
+      })
+      var randomTank = availiableTanks[Math.floor(Math.random() * availiableTanks.length)];
+      return randomTank
 
-      return highestManaCard;
     };
 
     function getRandomNumber(min, max) {

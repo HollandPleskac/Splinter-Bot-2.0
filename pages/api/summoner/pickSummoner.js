@@ -43,7 +43,12 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
 
   async function chooseSummoner(summoners, availiableSplinters, splinterChoice, lastOppSplinter, manaCap, battleRule) {
 
-    function getHighestSummoner(summonerChoices) {
+    function getRandomSummoner(summonerChoices) {
+      const randomSummoner = summonerChoices[Math.floor(Math.random() * summonerChoices.length)];
+      return randomSummoner
+    }
+
+    function getHighestSummoner(summonerChoices) { // currently not in use
       let highestSummoner = summonerChoices[0];
       for (let i = 0; i < summonerChoices.length; i++) {
         if (summonerChoices[i].mana > highestSummoner.mana) {
@@ -53,7 +58,7 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
       return highestSummoner;
     }
 
-    function getLowestSummoner(summonerChoices) {
+    function getLowestSummoner(summonerChoices) { // currently not in use
       let lowestSummoner = summonerChoices[0];
       for (let i = 0; i < summonerChoices.length; i++) {
         if (summonerChoices[i].mana < lowestSummoner.mana) {
@@ -75,11 +80,12 @@ async function pickSummoner(page, availiableSplinters, splinterChoice, lastOppon
       console.log('mana count total:', manaCap);
       console.log('summoners availiable:', summonerChoices);
       if (summonerChoices.length !== 0) {
-        if (manaCap >= 29) {
-          return getHighestSummoner(summonerChoices);
-        } else {
-          return getLowestSummoner(summonerChoices);
-        }
+        return getRandomSummoner(summonerChoices)
+        // if (manaCap >= 29) {
+        //   return getHighestSummoner(summonerChoices);
+        // } else {
+        //   return getLowestSummoner(summonerChoices);
+        // }
       } else {
         console.log(`splinter type ${splinter} not availiable`);
         return summoners[0];
