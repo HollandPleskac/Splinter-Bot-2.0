@@ -39,13 +39,13 @@ async function openSplinterlands() {
   try {
     browser = await puppeteer.launch({
       headless: false,
+      executablePath: "./node_modules/puppeteer/.local-chromium/win64-869685/chrome-win/chrome.exe", // https://stackoverflow.com/questions/53997175/puppeteer-error-chromium-revision-is-not-downloaded answer from Hamid Shoja (way at bottom with 2 upvotes)
       // args: ['--no-sandbox', '--disable-setuid-sandbox'],
       // executablePath: '/usr/bin/chromium-browser'
     });
     // args and executablePath are required to run on linux
   } catch (e) {
     console.log('broswer unable to be launched', e)
-    return
   }
 
   const page = await browser.newPage();
