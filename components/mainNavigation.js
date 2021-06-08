@@ -62,14 +62,14 @@ const Topbar = () => {
   const ctx = useContext(AuthContext)
   const [isDropdownOpen, setDropdownOpen] = useState(false)
 
-  const dropdownHandler = (params) => {
+  const dropdownHandler = () => {
     setDropdownOpen((prevState) => !prevState)
   }
 
 
   const signOutHandler = () => {
     setDropdownOpen((prevState) => !prevState)
-    ctx.onLogout()
+    ctx.onLogout(true)
   }
 
 

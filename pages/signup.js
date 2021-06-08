@@ -33,6 +33,14 @@ const Signup = () => {
     }
   }
 
+  const googleSignupHandler = async () => {
+      const res = await ctx.onGoogleSignup()
+      if (res !== 'success') {
+        setFeedback(res)
+      }
+  }
+  
+
 
   console.log(ctx.isLoggedIn)
   return (
@@ -41,6 +49,7 @@ const Signup = () => {
         <p className='text-sm' >&nbsp;</p>
         <h1 className='text-center mb-4 text-3xl font-semibold' >Sign Up</h1>
         <p className='text-center mb-4 text-md' >Already have an account? <span onClick={navHandler} className='text-blue-600 font-semibold cursor-pointer' >Sign in!</span></p>
+        <GoogleSignInButton googleSignupFn={googleSignupHandler}/>
         <Input placeholder='email' r={emailRef} />
         <Input placeholder='password' r={passwordRef} />
         <Input placeholder='confirm password' r={passwordConfirmRef} />
@@ -74,6 +83,15 @@ const Button = (props) => {
     </button>
   )
 }
+
+const GoogleSignInButton = (props) => {
+  return (
+    <button onClick={props.googleSignupFn} className='w-96 h-12 mb-4 rounded text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-400 focus:ring-opacity-50 focus:outline-none transition ease-in duration-100' >
+      Signup with Google
+    </button>
+  )
+}
+
 
 
 export default Signup

@@ -28,12 +28,21 @@ const Login = () => {
     }
   }
 
+  const googleLoginHandler = async () => {
+    const res = await ctx.onGoogleLogin()
+    if (res !== 'success') {
+      setFeedback(res)
+    }
+  }
+
+
   return (
     <div className='h-screen flex justify-center items-center' >
       <div className='flex flex-col w-96' >
         <p className='text-sm' >&nbsp;</p>
         <h1 className='text-center mb-4 text-3xl font-semibold' >Sign In</h1>
         <p className='text-center mb-4 text-md' >Don't have an account? <span onClick={navHandler} className='text-blue-600 font-semibold cursor-pointer' >Sign up!</span></p>
+        <GoogleSignInButton googleLoginFn={googleLoginHandler} />
         <Input placeholder='email' r={emailRef} />
         <Input placeholder='password' r={passwordRef} />
         <Button loginFn={loginHandler} />
@@ -64,6 +73,15 @@ const Button = (props) => {
     <button onClick={props.loginFn} className='w-96 h-12 rounded text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-400 focus:ring-opacity-50 focus:outline-none transition ease-in duration-100' >Login</button>
   )
 }
+
+const GoogleSignInButton = (props) => {
+  return (
+    <button onClick={props.googleLoginFn} className='w-96 h-12 mb-4 rounded text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-400 focus:ring-opacity-50 focus:outline-none transition ease-in duration-100' >
+      Login with Google
+    </button>
+  )
+}
+
 
 
 export default Login

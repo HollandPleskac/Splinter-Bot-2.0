@@ -3,13 +3,16 @@ import { useRouter } from 'next/router'
 
 import firebase from 'firebase/app'
 import 'firebase/auth'
+import 'firebase/firestore'
 
 const AuthContext = React.createContext({
   user: null,
   isLoading: true,
   onLogout: async () => { },
   onSignup: async (email, password) => { },
-  onLogin: async (email, password) => { }
+  onLogin: async (email, password) => { },
+  onGoogleLogin: async () => { },
+  onGoogleSignup: async () => { }
 })
 
 export const AuthContextProvider = (props) => {
@@ -50,13 +53,63 @@ export const AuthContextProvider = (props) => {
     }
   }
 
-  const logout = async () => {
+  const logout = async (push = true) => {
     firebase.auth().signOut().then(() => {
       console.log('signed out successfully')
-      router.push('/') // TODO ask uncle mark why signing out use wont trigger ProtectRoute component to rebuild.
+      if (push)
+        router.push('/') // TODO ask uncle mark why signing out use wont trigger ProtectRoute component to rebuild.
     }).catch((error) => {
       console.log('error occurred while signing out', error)
     });
+  }
+
+  const googleLogin = async () => {
+    try {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      const result = await firebase.auth().signInWithPopup(provider)
+
+      const user = result.user
+      const userQuery = await firebase.firestore().collection('Users').where(firebase.firestore.FieldPath.documentId(), '==', user.email).get()
+      if (userQuery.empty) {
+        logout(false)
+        return 'User doesn\'t exist in our database. Sign up first.'
+      }
+      router.push('/dashboard')
+      return 'success'
+    } catch (e) {
+      console.log(e.code, e.message)
+      return e.message
+    }
+  }
+
+  const createUser = async (email) => {
+    firebase.firestore().collection('Users').doc(email).set({
+      email: email,
+      password: '',
+      isInMatch: false,
+      shouldFarm: false,
+      splinterChoice: 'fire'
+    })
+  }
+
+
+  const googleSignup = async () => {
+    try {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      const result = await firebase.auth().signInWithPopup(provider)
+      const user = result.user
+      const userQuery = await firebase.firestore().collection('Users').where(firebase.firestore.FieldPath.documentId(), '==', user.email).get()
+      if (!userQuery.empty) {
+        logout(false)
+        return 'User already exists. Sign in to your account.'
+      }
+      await createUser(user.email)
+      router.push('/dashboard')
+      return 'success'
+    } catch (e) {
+      console.log(e.code, e.message)
+      return e.message
+    }
   }
 
   return (
@@ -67,6 +120,8 @@ export const AuthContextProvider = (props) => {
         onLogin: login,
         onSignup: signup,
         onLogout: logout,
+        onGoogleLogin: googleLogin,
+        onGoogleSignup: googleSignup
       }}>
       { props.children}
     </AuthContext.Provider >
