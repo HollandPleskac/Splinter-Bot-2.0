@@ -68,7 +68,7 @@ const LandingLink = (props) => {
 const HomeContent = () => {
   return (
     <div className='w-full h-3/4 flex flex-col justify-center items-center my-auto' >
-      <h1 className='text-7xl text-blue-600 mb-9 font-semibold'>Splinter Bot</h1>
+      <h1 className='text-7xl text-blue-600 mb-9'>Splinter Bot</h1>
       <p className='text-lg text-center text-gray-800 mb-9' >The smartest way to farm<br />dark energy crystals.</p>
       <div>
         <button className=' border-2 border-blue-600 text-blue-600 hover:bg-blue-700 hover:text-white px-8 py-3 rounded-lg transition ease-in duration-100 focus:outline-none mr-4' >Learn More</button>
@@ -95,7 +95,7 @@ const DifferentModes = () => {
     <div className='flex justify-evenly items-center py-24' >
       <img src="website-screenshots/modes.PNG" alt="Modes" width='500' className='rounded-2xl' />
       <div >
-        <h2 className='text-landingPageTitle mb-4 font-semibold text-gray-700 leading-tight ' >Different <span className='text-blue-600' >Modes</span><br />to try out</h2>
+        <h2 className='text-landingPageTitle mb-4 font-semibold text-gray-700 leading-tight ' >Different <span className='text-blue-600' >modes</span><br />to try out</h2>
         <p className='text-gray-500 text-lg' >Switch modes at any time - even while playing.<br /> Have fun winning with the best and random modes. </p>
       </div>
     </div >
@@ -106,7 +106,7 @@ const RealtimeData = () => {
   return (
     <div className='flex justify-evenly items-center py-24' >
       <div >
-        <h2 className='text-landingPageTitle mb-4 font-semibold text-gray-700 leading-tight ' > <span className='text-blue-600'>Realtime</span> Data</h2>
+        <h2 className='text-landingPageTitle mb-4 font-semibold text-gray-700 leading-tight ' > <span className='text-blue-600'>Realtime</span> data<br />from the website</h2>
         <p className='text-gray-500 text-lg' >Get live match results right from the website.<br />Go to live view tab to view matches in realtime!</p>
       </div>
       <img src="website-screenshots/live-view.PNG" alt="Server On" width='500' className='rounded-xl' />
@@ -119,7 +119,7 @@ const FullAnalysis = (params) => {
     <div className='flex justify-evenly items-center py-24' >
       <img src="website-screenshots/match-data.PNG" alt="Modes" width='500' className='rounded-2xl' />
       <div >
-        <h2 className='text-landingPageTitle mb-4 font-semibold text-gray-700 leading-tight ' >Full <span className='text-blue-600'>Analysis</span> </h2>
+        <h2 className='text-landingPageTitle mb-4 font-semibold text-gray-700 leading-tight ' >Full analysis<br />of all <span className='text-blue-600'>battles</span></h2>
         <p className='text-gray-500 text-lg' >Compile all of your matches into easily digestable<br />statistics.  Check out your data from two time intervals!</p>
       </div>
     </div >
