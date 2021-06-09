@@ -5,10 +5,17 @@ import Link from 'next/link'
 
 const HomePage = () => {
   return (
-    <div className='w-full h-screen flex flex-col ' >
-      <Header />
-      <HomeContent />
-    </div>
+    <>
+      <div className='w-full h-screen flex flex-col ' >
+        <Header />
+        <HomeContent />
+      </div>
+      <StartFarming />
+      <DifferentModes />
+      <RealtimeData />
+      <FullAnalysis />
+      <Security />
+    </>
   )
 }
 
@@ -18,14 +25,14 @@ const Header = () => {
     router.push('/login')
   }
 
-
   return (
-    <div className='w-full flex items-center justify-between shadow py-4 px-6' >
+    <div className='bg-white w-full flex items-center justify-between shadow py-4 px-6' >
       <div className='flex items-center' >
         <img src="/logo-blue.png" width='55' alt="Logo" className='mr-3' />
         <p className='text-lg text-gray-800' >Splinter Bot</p>
       </div >
       <div className='flex items-center' >
+        {/* include a video section here, cut into heading of webpage */}
         <LandingLink name='Home' href='#' />
         <LandingLink name='About' href='#' />
         <LandingLink name='Security' href='#' />
@@ -50,18 +57,6 @@ const LandingLink = (props) => {
 
 
 const HomeContent = () => {
-
-  const serverHandler = async () => {
-    let res = 'no response'
-    try {
-      res = await axios.post('api/farm')
-    } catch (e) {
-      console.log('an err occurred,', e)
-    }
-    console.log(res)
-  }
-
-
   return (
     <div className='w-full h-3/4 flex flex-col justify-center items-center my-auto' >
       <h1 className='text-7xl text-blue-600 mb-9 '>Splinter Bot</h1>
@@ -73,6 +68,62 @@ const HomeContent = () => {
     </div>
   )
 }
+
+const StartFarming = () => {
+  return (
+    <div className='flex justify-evenly items-center py-24' >
+      <div >
+        <h2 className='text-4xl text-semibold mb-4 text-gray-800 leading-tight ' >Start Farming<br />with a <span className='text-blue-600' >Click!</span></h2>
+        <p className='text-gray-500' >Start farming at the click of a button. Start and<br />stop the server from the dashboard here.</p>
+      </div>
+      <img src="website-screenshots/dashboard-small.PNG" alt="Server On" width='500' className='rounded-xl' />
+    </div>
+  )
+}
+
+const DifferentModes = () => {
+  return (
+    <div className='flex justify-evenly items-center py-24' >
+      <img src="website-screenshots/modes.PNG" alt="Modes" width='500' className='rounded-2xl' />
+      <div >
+        <h2 className='text-4xl text-semibold mb-4 text-gray-800 leading-tight ' >Different <span className='text-blue-600' >Modes</span><br />for the bot!</h2>
+        <p className='text-gray-500' >Switch modes at any time - even while playing.<br /> Have fun winning with the best and random modes. </p>
+      </div>
+    </div >
+  )
+}
+
+const RealtimeData = () => {
+  return (
+    <div className='flex justify-evenly items-center py-24' >
+      <div >
+        <h2 className='text-4xl text-semibold mb-4 text-gray-800 leading-tight ' > <span className='text-blue-600'>Realtime</span> Data</h2>
+        <p className='text-gray-500' >Get live match results right from the website.<br />Go to live view tab to view matches in realtime!</p>
+      </div>
+      <img src="website-screenshots/live-view.PNG" alt="Server On" width='500' className='rounded-xl' />
+    </div>
+  )
+}
+
+const FullAnalysis = (params) => {
+  return (
+    <div className='flex justify-evenly items-center py-24' >
+      <img src="website-screenshots/match-data.PNG" alt="Modes" width='500' className='rounded-2xl' />
+      <div >
+        <h2 className='text-4xl text-semibold mb-4 text-gray-800 leading-tight ' >Full <span className='text-blue-600'>Analysis</span> </h2>
+        <p className='text-gray-500' >Compile all of your matches into easily digestable<br />statistics.  Check out your data from two time intervals!</p>
+      </div>
+    </div >
+  )
+}
+
+const Security = () => {
+  return (
+    <div>Security</div>
+  )
+}
+
+
 
 
 export default HomePage

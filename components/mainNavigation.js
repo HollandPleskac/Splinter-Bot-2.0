@@ -71,16 +71,17 @@ const Topbar = () => {
     setDropdownOpen((prevState) => !prevState)
     ctx.onLogout(true)
   }
-
+  console.log()
 
   return (
     <>
       <div className='flex flex-col items-end justify-center pr-8 w-full h-topbar z-10 shadow'>
         <div className='relative' >
           <div tabIndex='0' onClick={dropdownHandler} className='group flex items-center cursor-pointer focus:outline-none' >
-            <p className='mr-4 text-sm text-gray-500' >Holland Pleskac</p>
-            <img src="prof.jpg" alt="Prof Pic" width='42' height='42' className='rounded-full border-gray-300 border-2 group-hover:border-gray-400 group-focus:border-gray-400 transition ease-in duration-100' />
+            <p className='mr-4 text-sm text-gray-500' >{ctx.user.email}</p>
+            <img src={ctx.user.photoURL || 'prof.jpg'} alt="Pic" width='42' height='42' className='rounded-full cover border-gray-300 border-2 group-hover:border-gray-400 group-focus:border-gray-400 transition ease-in duration-100' />
           </div>
+          {/* prof.jpg */}
 
           {isDropdownOpen && <div onClick={setDropdownOpen.bind(null, false)} className='fixed inset-0' ></div>}
 
