@@ -21,6 +21,9 @@ module.exports = {
       },
       backgroundColor: {
         modal: 'rgba(0,0,0,0.2)'
+      },
+      fontSize: {
+        landingPageTitle: '2.5rem'
       }
     }
 
