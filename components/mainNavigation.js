@@ -25,7 +25,7 @@ const Sidebar = () => {
       <div>
         <div className='h-topbar flex items-center'>
           <img src="logo-white.png" alt="Logo" width='35' className='ml-2 mr-2' />
-          <h1 className='text-white text-md font-bold' >SPLINTER BOT</h1>
+          <h1 className='text-white font-bold' >SPLINTER BOT</h1>
         </div>
         <hr className='border-white border-opacity-20 mb-2' />
         <SidebarLink name='Dashboard' icon={faTachometerAlt} href='/dashboard' />

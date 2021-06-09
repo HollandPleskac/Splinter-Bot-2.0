@@ -44,11 +44,10 @@ const Header = () => {
         <p className='text-lg text-gray-800' >Splinter Bot</p>
       </div >
       <div className='flex items-center' >
-        {/* include a video section here, cut into heading of webpage */}
-        <LandingLink name='Home' href='#' />
-        <LandingLink name='About' href='#' />
-        <LandingLink name='Security' href='#' />
-        <LandingLink name='Get Started' href='#' />
+        <LandingLink name='Home' href='/#' />
+        <LandingLink name='About' href='#about' />
+        <LandingLink name='Security' href='#security' />
+        <LandingLink name='Get Started' href='#get-started' />
       </div>
       <div className='flex items-center' >
         <button onClick={navHandler} className='text-white rounded-xl px-4 py-2 bg-blue-600 hover:bg-blue-700 transition ease-in duration-100 focus:outline-none' >Login</button>
@@ -92,7 +91,7 @@ const Video = () => {
 
 const StartFarming = () => {
   return (
-    <div className='flex justify-evenly items-center py-24' >
+    <div id='about' className='flex justify-evenly items-center py-24' >
       <div >
         <h2 className='text-landingPageTitle mb-4 font-semibold text-gray-700 leading-tight ' >Start Farming<br />with a <span className='text-blue-600' >Click</span></h2>
         <p className='text-gray-500 text-lg' >Start farming at the click of a button. Start and<br />stop the server from the dashboard here.</p>
@@ -140,7 +139,7 @@ const FullAnalysis = (params) => {
 
 const Security = () => {
   return (
-    <div className='flex flex-col items-center py-24' >
+    <div id='security' className='flex flex-col items-center py-24' >
       <h2 className='text-gray-800 mb-7 font-semibold' style={{ fontSize: '3.25rem' }}>Security is our top priority</h2>
       <p className='text-gray-500 text-lg text-center' >At Splinter Bot we are dedicated to keeping the data in your account safe and<br />secure. We take the highest possible security measures when handling<br />sensitive credentials used by our bot to log into Splinter Lands.</p>
     </div>
@@ -191,7 +190,7 @@ const Authentication = () => {
 
 const GetStarted = () => {
   return (
-    <div className=' py-24 ' >
+    <div id='get-started' className='py-24 ' >
       <div className='flex justify-evenly items-center p-4' >
         <div>
           <h2 className='text-gray-800 mb-7 font-semibold' style={{ fontSize: '3.25rem' }}>Get Started Today</h2>
@@ -218,10 +217,10 @@ const Footer = (params) => {
         <div className='text-white' >
           <h4 className='font-bold mb-7 text-lg' >NAVIGATION</h4>
           <ul>
-            <li className='mb-3' >Home</li>
-            <li className='mb-3'>About</li>
-            <li className='mb-3'>Security</li>
-            <li>Get Started</li>
+            <li className='mb-3' ><Link href='#' >Home</Link></li>
+            <li className='mb-3'><Link href='#about' >About</Link></li>
+            <li className='mb-3'><Link href='#security' >Security</Link></li>
+            <li><Link href='#get-started' >Get Started</Link></li>
           </ul>
         </div>
         <div className='text-white' >
