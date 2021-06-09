@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faShieldAlt, faKey, faDna } from '@fortawesome/free-solid-svg-icons'
+import { faShieldAlt, faKey, faDna, faHome, faEnvelope } from '@fortawesome/free-solid-svg-icons'
 
 const HomePage = () => {
   return (
@@ -12,6 +12,7 @@ const HomePage = () => {
         <Header />
         <HomeContent />
       </div>
+      <Video />
       <StartFarming />
       <DifferentModes />
       <RealtimeData />
@@ -23,6 +24,8 @@ const HomePage = () => {
       <Authentication />
 
       <GetStarted />
+
+      <Footer />
 
     </>
   )
@@ -78,6 +81,15 @@ const HomeContent = () => {
   )
 }
 
+const Video = () => {
+  return (
+    <div className='flex justify-center mb-24' >
+      <iframe src="splinter-bot-demo.webm" frameborder="0" width='1000' height='470' className='rounded-2xl border-2 border-gray-800'></iframe>
+    </div>
+  )
+}
+
+
 const StartFarming = () => {
   return (
     <div className='flex justify-evenly items-center py-24' >
@@ -95,7 +107,7 @@ const DifferentModes = () => {
     <div className='flex justify-evenly items-center py-24' >
       <img src="website-screenshots/modes.PNG" alt="Modes" width='500' className='rounded-2xl' />
       <div >
-        <h2 className='text-landingPageTitle mb-4 font-semibold text-gray-700 leading-tight ' >Different <span className='text-blue-600' >modes</span><br />to try out</h2>
+        <h2 className='text-landingPageTitle mb-4 font-semibold text-gray-700 leading-tight ' > <span className='text-blue-600' >Eight</span> different<br />modes to use </h2>
         <p className='text-gray-500 text-lg' >Switch modes at any time - even while playing.<br /> Have fun winning with the best and random modes. </p>
       </div>
     </div >
@@ -179,9 +191,52 @@ const Authentication = () => {
 
 const GetStarted = () => {
   return (
-    <div>Get Started Section TODO tomorrow</div>
+    <div className=' py-24 ' >
+      <div className='flex justify-evenly items-center p-4' >
+        <div>
+          <h2 className='text-gray-800 mb-7 font-semibold' style={{ fontSize: '3.25rem' }}>Get Started Today</h2>
+          <p className='text-gray-500 text-lg mb-8 ' >Splinter Bot is still in beta and we are happy to have you<br />as a beta tester. Drop us your name and email address<br />to create an account. Get started farming today!</p>
+        </div>
+        <div className='flex flex-col' >
+          <input type="text" placeholder='Full Name' className='px-4 py-3 mb-4 text-gray-600 border-2 border-gray-800 rounded focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition ease-in duration-100' style={{ width: 450 }} />
+          <input type="text" placeholder='Email Address' className='px-4 py-3 mb-4 text-gray-600 border-2 border-gray-800 rounded focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition ease-in duration-100' style={{ width: 450 }} />
+          <button className='px-4 py-3 rounded bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-opacity-50 transition ease-in duration-100' style={{ width: 450 }} >I'm Interested</button>
+        </div>
+      </div>
+    </div>
   )
 }
+
+const Footer = (params) => {
+  return (
+    <div className='bg-blue-600 py-16'>
+      <div className='flex justify-evenly mb-12' >
+        <div className='text-white' >
+          <h4 className='font-bold mb-7 text-lg' >SPLINTER BOT</h4>
+          <p style={{ lineHeight: '1.6rem' }} >Splinter Bot is an awesome webscraper<br />that farms you dark energy crystals. The<br />bot comes packed with tons of awesome<br />features like statistics and realtime match<br />history to help you earn more dark energy<br />crystals!</p>
+        </div>
+        <div className='text-white' >
+          <h4 className='font-bold mb-7 text-lg' >NAVIGATION</h4>
+          <ul>
+            <li className='mb-3' >Home</li>
+            <li className='mb-3'>About</li>
+            <li className='mb-3'>Security</li>
+            <li>Get Started</li>
+          </ul>
+        </div>
+        <div className='text-white' >
+          <h4 className='font-bold mb-7 text-lg' >CONTACT US</h4>
+          <ul>
+            <li className='mb-4' > <FontAwesomeIcon icon={faHome} className='mr-4' /> Mountain House, CA</li>
+            <li className='mb-4' > <FontAwesomeIcon icon={faEnvelope} className='mr-4' /> hollandpleskac@gmail.com</li>
+          </ul>
+        </div>
+      </div>
+      <p className='text-white font-semibold text-center'>© 2021 Splinter Bot. All rights reserved.</p>
+    </div>
+  )
+}
+
 
 
 
