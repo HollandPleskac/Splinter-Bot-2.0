@@ -39,7 +39,7 @@ const Header = () => {
   }
 
   return (
-    <div className='bg-white w-full flex items-center justify-between shadow py-4 px-6' >
+    <div className='fixed bg-white w-full flex items-center justify-between shadow py-4 px-6' >
       <div className='flex items-center' >
         <img src="/logo-blue.png" width='55' alt="Logo" className='mr-3' />
         <p className='text-lg text-gray-800' >Splinter Bot</p>
