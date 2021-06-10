@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShieldAlt, faKey, faDna, faHome, faEnvelope } from '@fortawesome/free-solid-svg-icons'
+import axios from 'axios'
 
 const HomePage = () => {
   return (
@@ -94,7 +95,7 @@ const HomeContent = () => {
 const Video = () => {
   return (
     <div className='flex justify-center mb-24' >
-      <iframe src="splinter-bot-demo.webm" frameborder="0" width='1000' height='470' className='rounded-2xl border-2 border-gray-800'></iframe>
+      <iframe src="splinter-bot-demo.webm" frameBorder="0" width='1000' height='470' className='rounded-2xl border-2 border-gray-800'></iframe>
     </div>
   )
 }
@@ -200,6 +201,28 @@ const Authentication = () => {
 }
 
 const GetStarted = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+
+  const userInputHandler = (e) => {
+    if (e.target.placeholder === 'Full Name') {
+      setName(e.target.value)
+    } else {
+      setEmail(e.target.value)
+    }
+  }
+
+
+  const imInterestedHandler = async () => {
+    const res = await axios.post('/api/send-email', {
+      name: name,
+      email: email
+    })
+    console.log(res)
+    setName('')
+    setEmail('')
+  }
+
   return (
     <div id='get-started' className='py-24 ' >
       <div className='flex justify-evenly items-center p-4' >
@@ -208,16 +231,16 @@ const GetStarted = () => {
           <p className='text-gray-500 text-lg mb-8 ' >Splinter Bot is still in beta and we are happy to have you<br />as a beta tester. Drop us your name and email address<br />to create an account. Get started farming today!</p>
         </div>
         <div className='flex flex-col' >
-          <input type="text" placeholder='Full Name' className='px-4 py-3 mb-4 text-gray-600 border-2 border-gray-800 rounded focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition ease-in duration-100' style={{ width: 450 }} />
-          <input type="text" placeholder='Email Address' className='px-4 py-3 mb-4 text-gray-600 border-2 border-gray-800 rounded focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition ease-in duration-100' style={{ width: 450 }} />
-          <button className='px-4 py-3 rounded bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-opacity-50 transition ease-in duration-100' style={{ width: 450 }} >I'm Interested</button>
+          <input type="text" placeholder='Full Name' value={name} onChange={userInputHandler} className='px-4 py-3 mb-4 text-gray-600 border-2 border-gray-800 rounded focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition ease-in duration-100' style={{ width: 450 }} />
+          <input type="text" placeholder='Email Address' value={email} onChange={userInputHandler} className='px-4 py-3 mb-4 text-gray-600 border-2 border-gray-800 rounded focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition ease-in duration-100' style={{ width: 450 }} />
+          <button onClick={imInterestedHandler} className='px-4 py-3 rounded bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-opacity-50 transition ease-in duration-100' style={{ width: 450 }} >I'm Interested</button>
         </div>
       </div>
     </div>
   )
 }
 
-const Footer = (params) => {
+const Footer = () => {
   return (
     <div className='bg-blue-600 py-16'>
       <div className='flex justify-evenly mb-12' >
