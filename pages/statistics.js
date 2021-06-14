@@ -203,7 +203,7 @@ const WinRatioBarChart = (props) => {
   const [loading, setLoading] = useState(true)
 
   const setWinsList = (winner, splinter, wins) => {
-    if (winner === 'hvcminer')
+    if (winner !== 'hvcminer')
       return
     if (splinter === 'fire') {
       wins[0]++
